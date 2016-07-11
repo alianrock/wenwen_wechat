@@ -1,0 +1,138 @@
+@import './theme.less';
+
+/*! base.css
+ *
+ * Adapted from normalize.css & typo.css
+ * https://github.com/necolas/normalize.css
+ * https://github.com/sofish/typo.css
+ */
+/* HTML5 */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, nav, section, summary {
+  display: block;
+}
+audio, canvas, video {
+  display: inline-block;
+}
+/*
+ * Prevents modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+/* Base */
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: none;
+}
+body {
+  margin: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-user-select:none;
+}
+/* Typography */
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+b, strong {
+  font-weight: bold;
+}
+del {
+  text-decoration: line-through;
+}
+dfn {
+  font-style: italic;
+}
+h1,h2,h3,h4,h5{
+  font-weight: normal;
+  margin: 0;
+}
+p{
+  margin: 0;
+}
+code, kbd, pre, samp {
+  font-family: monospace, serif;
+  font-size: 1em;
+}
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+q::before, q::after {
+  content: "";
+}
+small {
+  font-size: 80%;
+}
+sub, sup {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+ul, ol, li {list-style-type:none;vertical-align:0;margin:0;padding:0;}
+/* Figures */
+figure {
+  margin: 0;
+}
+/* Forms */
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  outline: none;
+}
+button,
+html input[type="button"], input[type="reset"], input[type="submit"] {
+  -webkit-appearance: button;
+}
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+input{
+  -webkit-appearance: none;
+}
+legend {
+  padding: 0;
+}
+textarea {
+  vertical-align: top;
+  -webkit-appearance: textarea;
+  -webkit-rtl-ordering: logical;
+  -webkit-user-select: text;
+  -webkit-flex-direction: column;
+  resize: auto;
+  cursor: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+/* Tables */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+* {
+-webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+
+body{
+  font-family: @font-family;
+  background-color: @body-background;
+  color: @text-color;
+}

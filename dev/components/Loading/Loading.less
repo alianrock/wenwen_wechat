@@ -1,0 +1,105 @@
+@import '../../style/minxis.less';
+@import '../../style/theme.less';
+
+//主loding
+.loading{
+	.px2rem(width,120px);
+	.px2rem(height,120px);
+	background: rgba(255, 255, 255, 0.61);
+	box-shadow: 0 0 10px rgba(218, 218, 218, 0.7);
+	border-radius: 9999px;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate3d(-50%,-50%,0);
+	display: flex;
+	justify-content:center;
+	align-items: center;
+}
+.loading div{
+  background-color: #fe6e00;
+  height: 60%;
+  .px2rem(width,5px);
+  border-radius: 10px;
+  display: inline-block;
+  margin: 5px;
+  -webkit-animation: loadingStretchDelay 1.2s infinite ease-in-out;
+  animation: loadingStretchDelay 1.2s infinite ease-in-out;
+}
+ 
+.loading .loading-rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+ 
+.loading .loading-rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+ 
+.loading .loading-rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+ 
+.loading .loading-rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+
+@-webkit-keyframes loadingStretchDelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) } 
+  20% { -webkit-transform: scaleY(1.0) }
+}
+ 
+@keyframes loadingStretchDelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+
+//小loading
+.loading_small{
+  .px2rem(width,40px);
+  .px2rem(height,40px);
+  position: relative;
+  margin: 0 auto;
+}
+.loading_small-box1,
+.loading_small-box2{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: @base-color;
+  opacity: 0.3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: loadingSamllBounce 2.0s infinite ease-in-out;
+  animation: loadingSamllBounce 2.0s infinite ease-in-out;
+}
+
+.loading_small-box2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+ 
+@-webkit-keyframes loadingSamllBounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+ 
+@keyframes loadingSamllBounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}

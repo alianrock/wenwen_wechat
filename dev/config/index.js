@@ -1,0 +1,1 @@
+export const ROUTE_EXPRESS_COMPONEY = ['顺丰快递','中通快递','申通快递','韵达快递','天天快递'];

@@ -1,0 +1,33 @@
+@import '../../style/minxis.less';
+@import '../../style/theme.less';
+
+.search{
+	position: fixed;
+	left: 0;
+	top:0;
+	display: flex;
+	align-items:center;
+	background: #fff;
+	.px2rem(height,80px);
+	width: 100%;
+	border-bottom: 1px solid #d9d9d9;
+	box-shadow: 0 1px 1px #d9d9d9;       
+}
+.search-icon{
+	.px2rem(width,40px);
+	.px2rem(height,40px);
+	.px2rem(margin-left,30px);
+	.px2rem(margin-right,10px);
+	.px2px(font-size,38px);
+	color: #cacaca;
+	text-align: center;
+}
+.search-input{
+	.px2rem(height,40px);
+	.px2rem(line-height,40px);
+	.px2rem(padding-top,20px);
+	.px2rem(padding-bottom,20px);
+	.px2px(font-size,30px);
+	flex:1 1 auto;
+	border:none;
+}

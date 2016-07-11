@@ -1,0 +1,90 @@
+@import '../../style/minxis.less';
+@import '../../style/theme.less';
+
+.waybillArriveCover{
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	background: #f4f4f4;
+	display: flex;
+	align-items:center;
+	justify-content: center;
+}
+
+//按钮列表
+.waybillArriveCover-btnw{
+	.px2rem(width, 440px);
+	display: none;
+}
+.waybillArriveCover-close{
+	.px2rem(width,40px);
+	.px2rem(height,40px);
+	.px2rem(right,60px);
+	.px2rem(top,37px);
+	position:absolute;
+	background-size: cover;
+}
+.waybillArriveCover-btn{
+	.px2rem(width, 440px);
+	.px2rem(height, 98px);
+	.px2rem(line-height, 98px);
+	.px2rem(margin-bottom, 53px);
+	text-align: center;
+	.px2px(font-size,32px); 
+	background: #fff;
+	color: #585858;
+	border:1px solid #d0d0d0;
+	border-radius: 6px;
+}
+.waybillArriveCover-btn_active,
+.waybillArriveCover-btn:active{
+	background: #fe9200;
+	border-color: #fe9200;
+	color: #fff;
+}
+.waybillArriveCover-confrim{
+	border-color: @base-color;
+	.px2rem(height, 78px);
+	.px2rem(line-height, 78px);
+	color: @base-color;
+}
+.waybillArriveCover-confrim:hover{
+	color: #fff;
+	background: @base-color;
+}
+
+
+//地址选择
+.WaybillArriveCoverAddress{
+	.px2rem(margin-top, 147px);
+	align-self:flex-start;
+	.list{
+		background: #fff;
+		border: 1px solid #d0d0d0;
+		border-bottom: none;
+		border-radius: 4px;
+	}
+	.item{
+		.px2rem(padding, 20px);
+		border-bottom: 1px solid #d0d0d0;
+		display: flex;
+	}
+	.item-con{
+		flex:1 1 auto;
+	}
+	.item-con-top{
+		.px2rem(line-height, 50px);
+		.px2px(font-size, 32px);
+		display: flex;
+		justify-content: space-between;
+	}
+	.item-con-bt{
+	}
+	.item-check{
+		.px2rem(height, 32px);
+		.px2rem(width, 32px);
+		.px2rem(margin-right,56px);
+	}
+}
