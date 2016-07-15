@@ -1,21 +1,23 @@
 import {createStore, compose, applyMiddleware, combineReducers} from 'redux';
 import thunMiddleware from 'redux-thunk';
+import sequenceAction from 'redux-sequence-action';
 import {route} from '../reducers/route';
 import {tip} from '../reducers/tip';
 import {bind} from '../reducers/bind';
-import { routerReducer } from 'react-router-redux';
+import {user} from '../reducers/user';
 
 const rootReducer = combineReducers({
+	user,
 	route,
 	tip,
 	bind,
-	routing: routerReducer
 });
 
 const createStoreWithMiddleware = 
 	compose(
 		applyMiddleware(
-			thunMiddleware
+			thunMiddleware,
+			sequenceAction
 		),
 		window.devToolsExtension ? window.devToolsExtension() : f => f
 	)(createStore);

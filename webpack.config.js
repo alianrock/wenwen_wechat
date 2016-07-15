@@ -11,7 +11,28 @@ module.exports = {
 		'waybillArrive':[
 			'webpack-hot-middleware/client',
 			'./dev/page/waybill/waybillArrive'
-		]
+		],
+		'address':[
+			'webpack-hot-middleware/client',
+			'./dev/page/address/'
+		],
+		'bind':[
+			'webpack-hot-middleware/client',
+			'./dev/page/bind/'
+		],
+		'test':[
+			'webpack-hot-middleware/client',
+			'./dev/page/test/test'
+		],
+		'vendor': [
+            'react',
+            'react-dom',
+            'redux',
+            'react-fastclick',
+            'react-redux',
+            'react-router',
+            'classNames'
+        ]
 	},
 	output: {
 	    path: path.join(__dirname, 'dist'),
@@ -21,7 +42,11 @@ module.exports = {
 	plugins: [
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NoErrorsPlugin()
+		new webpack.NoErrorsPlugin(),
+		new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js"),
+		new webpack.DefinePlugin({
+		    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+		})
 	],
 	module: {
 		loaders: [{
@@ -34,13 +59,12 @@ module.exports = {
 			include: __dirname
 		},
 		{
-			test: /\.less$/,
+			test: /\.(less|css)$/,
 			loader: 'style!css?minimize&localIdentName=[name]_[local]_[hash:base64:5]!autoprefixer!less-loader',
-			exclude: /node_modules/,
 			include:__dirname
 		},{ 
 		    test: /\.(gif|jpg|png)\??.*$/,
-		    loader: 'url-loader?limit=50000&name=images/[name].[hash:base64:8].[ext]' 
+		    loader: 'url-loader?limit=2000&name=images/[name].[hash:base64:8].[ext]' 
 		},{
 			test: /\.(woff|svg|eot|ttf)\??.*$/,
 		    loader: 'url-loader?limit=100&name=iconfont/[name].[hash:base64:8].[ext]' 

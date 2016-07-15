@@ -2,7 +2,7 @@ import {START_REQUEST_ROUTE, RECEIVE_ROUTE, REQUEST_ROUTE_FAIL} from '../actions
 
 export function route(state = {
 	isRequesting: false,
-	result:{},
+	result:null,
 	showTip: false
 },action){
 	switch(action.type){

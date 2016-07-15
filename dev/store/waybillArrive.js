@@ -1,9 +1,18 @@
 import {createStore, compose, applyMiddleware, combineReducers} from 'redux';
 import thunMiddleware from 'redux-thunk';
-import { routerReducer } from 'react-router-redux';
+import {waybillArrive} from '../reducers/waybillArrive';
+import {tip} from '../reducers/tip';
+import {user} from '../reducers/user';
+import {bind} from '../reducers/bind';
+
+
 
 const rootReducer = combineReducers({
-	routing: routerReducer
+	tip,
+	waybillArrive,
+	user,
+	tip,
+	bind
 });
 
 

@@ -7,21 +7,24 @@ export default class RouteInquire extends Component {
 	constructor(props, context){
 		super(props, context);
 		this.state = {
-			componey: '请选择快递公司'
+			componey:'请选择快递公司哦',
+			componeyCode:''
 		}
 		
 	}
 
 	//选择快递公司
 	handleSelect(e){
-		this.setState({componey: e.target.value});
+		const code = e.target.value;
+		const item = ROUTE_EXPRESS_COMPONEY.filter((item) => item.code == code);
+		this.setState({componey: item[0].name,componeyCode: code});
 	}
 
 	//提交请求
 	handleRouteSubmit(e){
 
 		let number = this.refs.number.value.trim();
-		if(this.state.componey === '请选择快递公司'){
+		if(this.state.componeyCode === ''){
 			this.props.tipShowAndFade('请选择快递公司哦');
 			return;
 		}
@@ -30,7 +33,7 @@ export default class RouteInquire extends Component {
 			return;
 		} 
 
-		hashHistory.push('/route/'+this.state.componey+'/'+number);
+		hashHistory.push('/route/'+this.state.componeyCode+'/'+number);
 		
 	}
 
@@ -45,9 +48,10 @@ export default class RouteInquire extends Component {
 						<div className = 'routerq-selectw'>
 							{this.state.componey}
 							<select className='routerq-select' onChange={this.handleSelect.bind(this)}>
+								<option value = '' key='none'>请选择快递公司</option>
 								{ROUTE_EXPRESS_COMPONEY.map(option =>
-						            <option value={option} key={option}>
-						              {option}
+						            <option value={option.code} key={option.code} >
+						              {option.name}
 						            </option>)
 						        }
 							</select>
@@ -59,7 +63,7 @@ export default class RouteInquire extends Component {
 						<div className = 'routerq-inputicon_1 icon icon-note'>
 						</div>
 						<input ref = 'number' type='text' placeholder ='请输入运单号' className = 'routerq-input' />
-						<i className = 'routerq-inputicon_2 icon icon-xiangji'></i>
+						{/*<i className = 'routerq-inputicon_2 icon icon-xiangji'></i>*/}
 					</div>	
 				</form>
 				<span className = 'routerq-submit' onClick = {this.handleRouteSubmit.bind(this)}>查询</span>			

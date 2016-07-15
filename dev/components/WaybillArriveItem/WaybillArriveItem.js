@@ -1,18 +1,46 @@
 import React, {Component, PropTypes } from 'react';
 import style from './WaybillArriveItem.less';
 import LoadingSmall from '../Loading/LoadingSmall';
+import classNames from 'classNames';
 
 export default class WaybillArriveItem extends Component {
+	constructor(props,context){
+		super(props,context);
+		this.state = {
+			showLog:false
+		}
+	}
+
+	handleBtnTap(e){
+		e.preventDefault();
+		e.stopPropagation();
+		this.props.showCover(this.props.date);
+	}
+	handleTapItem(e){
+		this.setState({
+			showLog:!this.state.showLog
+		});
+		if(this.state.showLog && this.props.logs.length == 0){
+			this.props.getItemLog();
+		}
+	}
 	render(){
+		const itemClass = classNames({
+			'waybillItem':true,
+			'waybillItem_showLog':this.state.showLog
+		})
 		return (
 			<div>
-				<section className = 'waybillItem'>
-				<header className = 'waybillItem-header'>顺丰<span className='waybillItem-header-line'>|</span><span>1234567890</span>
+				<section className = {itemClass} onClick = {this.handleTapItem.bind(this)}>
+					<header className = 'waybillItem-header'>
+						{this.props.expressCompany}
+						<span className='waybillItem-header-line'>|</span>
+						<span>{this.props.waybillNo}</span>
 					</header>
 					<div className = 'waybillItem-mid'>
 						<div className = 'waybillItem-middle-icon'></div>
 						<div className = 'waybillItem-middle-state'>请到店自取</div>
-						<div className = 'waybillItem-middle-btn'>没空拿？</div>
+						<div className = 'waybillItem-middle-btn'  onClick = {this.handleBtnTap.bind(this)} >没空拿？</div>
 					</div>
 					<div className = 'waybillItem-btm'>
 						<span className = 'waybillItem-btm-icon1'></span>
@@ -21,7 +49,7 @@ export default class WaybillArriveItem extends Component {
 						</span>
 						<span className = 'waybillItem-btm-icon2 icon icon-down'></span>		
 					</div>
-					<div className = 'waybillItem-log'>
+					<div className ='waybillItem-log'>
 						<LoadingSmall/>
 						<ul className = 'waybillItem-list'>
 							<li className = 'item'>

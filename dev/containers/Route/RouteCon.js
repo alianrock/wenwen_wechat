@@ -9,29 +9,32 @@ import Loading from '../../components/Loading/Loading';
 import Tip from '../../components/Tip/Tip';
 
 import * as routeActions from '../../actions/route';
-
+import * as userActions from '../../actions/user';
 
 class RouteCon extends Component {
 	constructor(props){
 		super(props);
-		this.componey = this.props.params.com;
+		this.componeyCode = this.props.params.com;
 		this.number = this.props.params.num;
 	}
 
 	componentWillMount(){
-		this.props.routeActions.requestRoute(this.componey, this.number)
+		const {userActions,routeActions} = this.props;
+		userActions.getUser(function(token){
+			routeActions.requestRoute(token,this.componeyCode, this.number);	
+		}.bind(this));
 	}
-	
+
 	render(){
 
-		const {	route,tip,routeActions} = this.props;
+		const {	user,route,tip,routeActions} = this.props;
 		let loadingComponent = '';
-		if(route.isRequesting) {
+		if(route.isRequesting || user.isRequesting) {
 			loadingComponent = <Loading />;
 		}
 		return (
 			<div>
-				<RouteComponent com = 'sf' num = {this.number} />
+				<RouteComponent componeyCode = {this.componeyCode} num = {this.number} route = {route} />
 				{loadingComponent}
 				<Tip text = {tip.text} showTip = {tip.showTip} />
 			</div>
@@ -47,6 +50,7 @@ RouteCon.propTypes = {
 
 function mapStateToProps(state){
 	return {
+		user: state.user,
 		route: state.route,
 		tip: state.tip
 	}
@@ -54,7 +58,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
 	return {
-		routeActions: bindActionCreators(routeActions, dispatch)
+		routeActions: bindActionCreators(routeActions, dispatch),
+		userActions: bindActionCreators(userActions,dispatch)
 	}
 }
 

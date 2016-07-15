@@ -6,7 +6,7 @@ import {
 
 function bindCode(state = {
 	isRequesting: false,
-	result:{}
+	result:null
 },action){
 	switch(action.type){
 		case START_GET_CODE:
@@ -32,7 +32,7 @@ function bindCode(state = {
 
 function bindTel(state = {
 	isRequesting: false,
-	result:{}
+	result:null
 },action){
 	switch(action.type){
 		case START_BIND:

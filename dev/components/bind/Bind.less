@@ -2,13 +2,12 @@
 @import '../../style/theme.less';
 
 
-.binewarp{
-	.px2rem(padding-top,70px);
+.bindwarp{
 	display: flex;
 	flex-flow: column;
 	align-items:center;
 }
-.bine-tip{
+.bind-tip{
 	color: #8e8e8e;
 	.px2px(font-size, 24px);
 	.px2rem(line-height, 30px);
@@ -17,8 +16,11 @@
 		color: @base-color;
 		font-style: normal;
 	}
+	display: flex;
+	text-align: left;
+
 }
-.bine-tipicon{
+.bind-tip-icon{
 	display: inline-block;
 	.px2rem(width, 30px);
 	.px2rem(height, 30px);
@@ -26,8 +28,12 @@
 	background: url(./images/icon-prompt@3x.png) no-repeat;
 	background-size: cover;
 	vertical-align: top;
+
 }
-.bine-inputwrapper{
+.bind-tip-con{
+	flex:1 1 auto;
+}
+.bind-inputwrapper{
 	display: flex;
 	.px2rem(height, 90px);
 	.px2rem(width, 580px);
@@ -36,7 +42,7 @@
 	border-radius: 4px;
 	overflow: hidden;
 }
-.bine-input{
+.bind-input{
 	border:none;
 	background: #fff;
 	flex:1 1 auto;
@@ -47,17 +53,63 @@
 	.px2rem(line-height, 30px);
 	.px2px(font-size, 30px);
 }
-.bine-codebtn{
+.bind-codebtn{
 	.px2rem(width, 150px);
 	.px2rem(line-height, 90px);
 	text-align: center;
 	.px2px(font-size, 24px);
 }
-.bine-codebtn_1{
+.bind-codebtn_1{
 	background: #e9e9e9;
 	color: #a0a0a0;
 }
-.bine-codebtn_2{
+.bind-codebtn_2{
 	background: #fe9200;
 	color: #fff;
+}
+
+
+//绑定成功
+
+.hadBind-con{
+	.hadBind-icon{
+		.px2rem(font-size,130px);
+	}
+	text-align: center;
+}
+.hadBind-icon{
+	display: block;
+	margin: 0 auto;
+	.px2rem(font-size,130px);
+	.px2rem(margin-bottom,30px);
+	color: #66d474;
+}
+.hadBind-text_1{
+	.px2px(font-size,40px);
+	.px2px(line-height,40px);
+	color: #282828;
+	.px2rem(margin-bottom,30px);
+}
+.hadBind-text_2{
+	.px2px(font-size,30px);
+	.px2px(line-height,30px);
+	.px2rem(margin-bottom,50px);
+	color: #585858;
+	em{
+		.px2rem(margin-left,20px);
+		color: @base-color;
+		font-style: normal;
+	}
+}
+.hadBind-tip{
+	.px2rem(margin-bottom,70px);
+	.px2px(font-size, 24px);
+	text-align: left;
+	display: flex;
+}
+.bint-tip-con{
+	flex:1 1 auto;
+}
+.hadBind-btn{
+	.btn(@base-color,#fff,80px,30px,4px);
 }

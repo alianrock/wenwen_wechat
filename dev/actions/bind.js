@@ -1,6 +1,8 @@
 import reqwest from 'reqwest';
 import {tipShowAndFade} from './tip';
-
+import {API,CODE_MAP,SERVER_ERR_TIP,COOKIE_NAME_TOKEN} from '../config';
+import {getQueryString,getUserCookie,setUserCookie} from '../utils';
+import {receiveUser} from './user';
 //获取验证码acitons
 export const START_GET_CODE = 'START_GET_CODE';
 export const RECEIVE_CODE = 'RECEIVE_CODE';
@@ -15,7 +17,6 @@ export function startGetCode(){
 	return {
 		type: START_GET_CODE
 	}
-
 }
 //获取到验证码
 export function receiveCode(result){
@@ -43,14 +44,26 @@ export function getCode(tel){
 	return dispatch => {
 		dispatch(startGetCode());
 		return reqwest({
-			url:'/mock/binecode',
-			type:'json'
+			url:API.getCode,
+			type:'json',
+			data:{
+				direct:'user',
+				action:'verificationCode',
+				phone:tel,
+				type:'r'
+			}
 		})
-		.then(res => dispatch(receiveCode(res))
-		)	
+		.then(res => {
+			if(CODE_MAP[res.respCode].pass){
+				dispatch(receiveCode(res));
+			}else{
+				dispatch(getCodeFail(res.respCode,CODE_MAP[res.respCode].msg));
+				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
+			}
+		})	
 		.fail((err, msg) =>{
 			dispatch(getCodeFail(err,msg));
-			dispatch(tipShowAndFade('服务器开小差了哦，请稍后再试！'));
+			dispatch(tipShowAndFade(SERVER_ERR_TIP));
 		});
 	}
 } 
@@ -84,19 +97,48 @@ export function bindFail(err, msg){
 
 }
 
+
 //绑定
-export function bind(code){
+export function bind(code,tel,callback){
 	return dispatch => {
+		const wxcode = getQueryString('code');
+
+		//找不到code参数
+		if(!code) {
+			dispatch(getUserFail('code_err','code_err'));
+			dispatch(tipShow(SERVER_ERR_TIP));
+				return;
+		}
+
 		dispatch(startBind());
 		return reqwest({
 			url:'/mock/bine',
-			type:'json'
+			type:'json',
+			data:{
+				direct:'user',
+				action:'bindingTel',
+				code:wxcode,
+				phone:tel,
+				verificationCode:code
+			}
 		})
-		.then(res => dispatch(receiveBineResult(res))
-		)	
+		.then(res => {
+			if(CODE_MAP[res.respCode].pass){
+				dispatch(receiveBineResult(res));
+				setUserCookie(res.token,res.phone);
+				dispatch(receiveUser({token:res.token,phone:res.phone}));
+				dispatch(tipShowAndFade('绑定成功！'));
+				if(callback){
+					callback();
+				}
+			}else{
+				dispatch(bindFail(res.respCode,CODE_MAP[res.respCode].msg));
+				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
+			}
+		})	
 		.fail((err, msg) =>{
 			dispatch(bindFail(err,msg));
-			dispatch(tipShowAndFade('服务器开小差了哦，请稍后再试！'));
+			dispatch(tipShowAndFade(SERVER_ERR_TIP));
 		});
 	}
 } 

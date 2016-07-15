@@ -1,9 +1,17 @@
 import React, {Component, PropTypes } from 'react';
 import style from './Search.less';
 export default class Search extends Component {
-
+	constructor(props,context){
+		super(props,context);
+		this.timer = null;
+	}
+	
 	handleChange(e){
-		let value =e.target.value.trim();
+		clearTimeout(this.timer);
+		this.timer = setTimeout(function(){
+			let value =e.target.value.trim();
+			this.props.filter(value);
+		}.bind(this),200);
 	}
 
 	render(){

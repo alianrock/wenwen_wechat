@@ -28,6 +28,7 @@
     "react-router-redux": "^4.0.5",
     "redux": "^3.0.0",
     "redux-logger": "^2.0.2",
+    "redux-sequence-action": "^0.2.0",
     "redux-thunk": "^0.1.0"
   },
   "devDependencies": {
@@ -48,12 +49,15 @@
     "node-libs-browser": "^1.0.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "react-fastclick": "^2.1.2",
     "react-redux": "^4.4.5",
+    "react-tap-event-plugin": "^1.0.0",
     "react-transform-hmr": "^1.0.4",
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^0.1.0",
     "reqwest": "^2.0.5",
+    "rmc-picker": "^3.2.3",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",

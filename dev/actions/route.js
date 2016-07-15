@@ -1,5 +1,7 @@
 import reqwest from 'reqwest';
-import {tipShowAndFade} from './tip';
+import {tipShow} from './tip';
+import {API,CODE_MAP,SERVER_ERR_TIP} from '../config';
+import {getUser} from './user';
 export const START_REQUEST_ROUTE = 'START_REQUEST_ROUTE'; 
 export const RECEIVE_ROUTE = 'RECEIVE_ROUTE';
 export const REQUEST_ROUTE_FAIL = 'REQUEST_ROUTE_FAIL';
@@ -32,19 +34,52 @@ export function requestRouteFail(err, msg){
 
 }
 
+//请求路由队列
+// export function requestRouteQueen(token,ShipperCode,number){
+// 	if(token){
+// 		return dispatch =>{
+// 			requestRoute(dispatch,token,ShipperCode,number);
+// 		}
+// 	}else{
+// 		return [
+// 			dispatch => {
+// 				dispatch(getUser());
+// 			},
+// 			(dispatch,getState) => {
+// 				const token = getState().user.token;
+// 				if(!token) return;
+// 				requestRoute(dispatch,token,ShipperCode,number);
+// 			}
+// 		]
+// 	}
+// }
+
 //请求路由信息
-export function requestRoute(number){
-	return dispatch => {
+export function requestRoute(token,ShipperCode,number){
+	return (dispatch) => {
 		dispatch(startRequestRoute());
 		return reqwest({
-			url:'/mock/routeinquire',
-			type:'json'
+			url: API.getRoute,
+			type:'json',
+			data:{
+				token: token,
+				direct:'track',
+				action:'query',
+				ShipperCode:ShipperCode,
+				LogisticCode:number
+			}
 		})
-		.then(res => dispatch(receiveRoute(res))
-		)	
+		.then(res => {
+			if(CODE_MAP[res.respCode].pass){
+				dispatch(receiveRoute(res));
+			}else{
+				dispatch(getUserFail(res.respCode,CODE_MAP[res.respCode].msg));
+				dispatch(tipShow(CODE_MAP[res.respCode].msg));
+			}
+		})	
 		.fail((err, msg) =>{
 			dispatch(requestRouteFail(err,msg));
-			dispatch(tipShowAndFade('服务器开小差了哦，请稍后再试！'));
+			dispatch(tipShow(SERVER_ERR_TIP));
 		});
 	}
 } 

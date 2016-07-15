@@ -1,0 +1,34 @@
+@import '../../style/minxis.less';
+@import '../../style/theme.less';
+
+.tab-wrapper{
+	display: flex;
+	align-items:stretch;
+	.px2rem(height,80px);
+	.px2rem(line-height,80px);
+	background: #fff;
+	border-bottom: 1px solid #d9d9d9;
+	box-shadow: 0 1px 0 #ebebeb;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+.tab-item{
+	flex:1 1 auto;
+	text-align: center;
+}
+.tab-item-inner{
+	display: block;
+	margin:0 auto; 
+	height: 100%;
+	.px2rem(width,166px);
+	.px2px(font-size,30px);
+	border-bottom: 1px solid transparent;
+	box-sizing: border-box;
+}
+.tab-item_on{
+	.tab-item-inner{
+		border-bottom: 1px solid #ff8b00;
+	}
+}

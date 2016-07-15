@@ -7,24 +7,118 @@
 	top: 0;
 	bottom: 0;
 	right: 0;
+	z-index: 1000;
+	-webkit-overflow-scrolling: touch;
 	background: #f4f4f4;
 	display: flex;
 	align-items:center;
 	justify-content: center;
+	overflow: hidden;
+	transform:translate3d(100%,0,0);
+	opacity: 0;
+	transition:all 0.2s ease;
+}
+.waybillArriveCover_show{
+	transform:translate3d(0,0,0);
+	opacity: 1;
 }
 
+//提示组件
+.waybillArriveCover-tip{
+	.px2rem(margin-bottom,70px);
+	.px2px(font-size, 24px);
+	color: #8f8f8f;
+	em{
+		color: @base-color;
+		font-style: normal;
+	}
+	.tip-icon{
+		display: inline-block;
+		.px2rem(height,30px);
+		.px2rem(width,30px);
+		.px2rem(margin-right,12px);
+		background: url(./images/icon-prompt@3x.png) no-repeat;
+		background-size: cover;
+		vertical-align: top;
+	}
+}
+
+//确认按钮
+.waybillArriveCover-confirm{
+	.btn(@base-color,#fff,80px,32px,4px);
+}
 //按钮列表
 .waybillArriveCover-btnw{
+	transition: all 0.3s ease;
 	.px2rem(width, 440px);
-	display: none;
+	.icon{
+		.px2rem(width,60px);
+		.px2rem(height,60px);
+		.px2rem(margin-right,20px);
+		display: inline-block;
+		background-size: cover;
+		vertical-align: middle;
+	}
+	.icon-shop{
+		background-image: url(./images/icon-personActiveBox@3x.png);
+	}
+	.icon-deliver{
+		background-image: url(./images/icon-dayActiveBox@3x.png);
+	}
+	.icon-help{
+		background-image: url(./images/icon-personActiveBox@3x.png);
+	}
+	.icon-nextday{
+		background-image: url(./images/icon-clockActiveBox@3x.png);
+	}
+	.icon-day{
+		background-image: url(./images/icon-dayActiveBox@3x.png);
+	}
+	.icon-night{
+		background-image: url(./images/icon-nightActiveBox@3x.png);
+	}
+}
+.waybillArriveCover-btn_active{
+	.icon-shop{
+		background-image: url(./images/icon-personBox@3x.png);
+	}
+	.icon-deliver{
+		background-image: url(./images/icon-dayBox@3x.png);
+	}
+	.icon-help{
+		background-image: url(./images/icon-personBox@3x.png);
+	}
+	.icon-nextday{
+		background-image: url(./images/icon-clockBox@3x.png);
+	}
+	.icon-day{
+		background-image: url(./images/icon-dayBox@3x.png);
+	}
+	.icon-night{
+		background-image: url(./images/icon-nightBox@3x.png);
+	}
+}
+.waybillArriveCover-btnw_fade{
+	opacity: 0;
 }
 .waybillArriveCover-close{
 	.px2rem(width,40px);
 	.px2rem(height,40px);
 	.px2rem(right,60px);
-	.px2rem(top,37px);
+	.px2rem(top,17px);
+	.px2rem(padding,20px);
 	position:absolute;
-	background-size: cover;
+	background: url(./images/icon-closeBox@3x.png) center no-repeat;
+	background-size: 66.66666% 66.66666%;
+}
+.waybillArriveCover .waybillArriveCover-back{
+	.px2rem(width,40px);
+	.px2rem(height,40px);
+	.px2rem(font-size,40px);
+	color:#999999;
+	position:absolute;
+	.px2rem(left,60px);
+	.px2rem(top,37px);
 }
 .waybillArriveCover-btn{
 	.px2rem(width, 440px);
@@ -32,7 +126,7 @@
 	.px2rem(line-height, 98px);
 	.px2rem(margin-bottom, 53px);
 	text-align: center;
-	.px2px(font-size,32px); 
+	.px2px(font-size,30px); 
 	background: #fff;
 	color: #585858;
 	border:1px solid #d0d0d0;
@@ -59,17 +153,34 @@
 //地址选择
 .WaybillArriveCoverAddress{
 	.px2rem(margin-top, 147px);
-	align-self:flex-start;
+	.px2rem(padding-left, 30px);
+	.px2rem(padding-right, 30px);
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1001;	
+	transform:translate3d(100%,0,0);
+	transition:all 0.2s ease;
 	.list{
+		.px2rem(max-height, 420px);
 		background: #fff;
 		border: 1px solid #d0d0d0;
 		border-bottom: none;
 		border-radius: 4px;
+		box-shadow: 0 3px 0 #e4e4e4;
+		overflow-y:auto;
+		-webkit-overflow-scrolling: touch;
 	}
 	.item{
 		.px2rem(padding, 20px);
 		border-bottom: 1px solid #d0d0d0;
 		display: flex;
+		align-items:center;
+	}
+	.item_select{
+		.item-check{
+			color: @base-color;
+		}
 	}
 	.item-con{
 		flex:1 1 auto;
@@ -85,6 +196,157 @@
 	.item-check{
 		.px2rem(height, 32px);
 		.px2rem(width, 32px);
-		.px2rem(margin-right,56px);
+		.px2px(font-size, 32px);
+		.px2rem(margin-left,56px);
+		color: #c4c4c4;
+	}
+	.addbtn{
+		border:1px dashed #0093ea;
+		border-radius: 4px;
+		.px2rem(height,87px);
+		.px2rem(margin-top,33px);
+		.px2rem(margin-bottom,34px);
+		.px2rem(line-height,87px);
+		text-align: center;
+		background: #fff;
+		color: #0093ea;
+	}
+	.addbtn-icon{
+		.px2px(font-size, 24px);
+		.px2rem(margin-right, 20px);
+	}
+	.addressInputWrapper{
+		border:1px solid #d0d0d0;
+		border-radius: 4px;
+		box-shadow: 0 3px 0 #e4e4e4;
+		background: #fff;
+		overflow: hidden;
+		.px2rem(margin-bottom,34px);
+	}
+	.addressInputWrapper-icon{
+		display: inline-block;
+		.px2rem(width,54px);
+		.px2px(font-size,36px);
+		.px2rem(margin-left,20px);
+		color: @base-color;
+	}
+	.addressInput{
+		border:none;
+		.px2rem(padding-top,28px);
+		.px2rem(padding-bottom,28px);
+		.px2rem(line-height,36px);
+		.px2px(font-size,32px);
+
 	}
 }
+.WaybillArriveCoverAddress_show{
+	transform:translate3d(0,0,0);
+}
+
+//时间选择
+.waybillArriveCoverTime{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: 1001;
+	transform:translate3d(100%,-50%,0);
+	transition:all 0.2s ease;
+	.px2rem(width, 578px);
+	.waybillArriveCover-tip{
+		.px2rem(margin-top, 34px);
+		.px2rem(margin-bottom, 70px);
+	}
+	.waybillArriveCover-confirm{
+		.px2rem(margin-top, 70px);
+	}
+}
+.waybillArriveCoverTime_show{
+	transform:translate3d(-50%,-50%,0);
+}
+.waybillArriveCoverTime-picker{
+	background: #fff;
+	border-radius: 4px;
+	border:@base-border;
+	.px2rem(padding, 20px);
+	box-shadow: @base-shadow;
+	.header{
+		.px2px(font-size, 24px);
+		color: #8e8e8e;
+	}
+	.header-icon{
+		.px2px(font-size, 30px);
+		.px2rem(margin-right, 12px);
+		color: #00b1fc;
+	}
+	.rmc-picker{
+		.px2rem(height,210px);
+		width: 70%;
+    	margin: 40px auto;
+	}
+	.rmc-picker-mask{
+		background-size:100%  70px / @base-rem * 1rem;
+	}
+	.rmc-picker-indicator{
+		.px2rem(height,70px);
+		.px2rem(top,70px);
+	}
+	.rmc-picker-item{
+		.px2px(font-size,30px);
+		.px2rem(height,70px);
+		.px2rem(line-height,70px);
+	}
+	
+}
+
+
+//小伙伴代拿
+.waybillArriveCoverHelp{
+	.px2rem(margin-top, 147px);
+	.px2rem(padding-left, 30px);
+	.px2rem(padding-right, 30px);
+	.px2rem(width, 578px);
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1001;
+	transform:translate3d(100%,0,0);
+	transition:all 0.2s ease;
+	.inputwrapper{
+		background: #fff;
+		border:1px solid @base-border;
+		box-shadow: @base-shadow;
+		border-radius: 4px;
+		.px2rem(margin-bottom,33px);
+		display: flex; 
+		overflow: hidden;
+		.px2rem(font-size, 30px);
+	}
+	.input{
+		.px2rem(height,30px);
+		.px2rem(padding-top,30px);
+		.px2rem(padding-bottom,30px);
+		flex:1 1 auto;
+		border:none;
+	}
+	.textarea{
+		border:none;
+		.px2rem(height,150px);
+		.px2rem(padding-top,30px);
+		.px2rem(padding-bottom,30px);
+		resize: none;
+		flex:1 1 auto;
+	}
+	.icon{
+		.px2rem(width, 34px);
+		.px2rem(font-size, 34px);
+		.px2rem(padding-left, 20px);
+		.px2rem(padding-right, 20px);
+		.px2rem(padding-top, 30px);
+	
+		color: @base-color;
+	}
+}
+.waybillArriveCoverHelp_show{
+	transform:translate3d(0,0,0);
+}
+

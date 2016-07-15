@@ -27,3 +27,14 @@
 .px2rem(@name, @px){
     @{name}: @px / @base-rem * 1rem;
 }
+
+/*btn生成*/
+.btn(@bgcolor,@textColor,@height,@fontSize,@radius){
+    .px2rem(height, @height);
+    .px2rem(line-height, @height);
+    .px2px(font-size, @fontSize);
+    background: @bgcolor;
+    color: @textColor;
+    text-align: center;
+    border-radius: @radius;
+}

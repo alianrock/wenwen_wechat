@@ -1,10 +1,39 @@
 @import '../../style/minxis.less';
 @import '../../style/theme.less';
 
+//快递公司icon
+.route-header-logo_SF{
+	background-image: url(./images/sf.png);
+}
+.route-header-logo_STO{
+	background-image: url(./images/sto.png);
+}
+.route-header-logo_YTO{
+	background-image: url(./images/yto.png);
+}
+.route-header-logo_ZTO{
+	background-image: url(./images/zto.png);
+}
+.route-header-logo_HHTT{
+	background-image: url(./images/hhtt.png);
+}
+.route-header-logo_YD{
+	background-image: url(./images/yd.png);
+}
+.route-header-logo_EMS{
+	background-image: url(./images/ems.png);
+}
+
+
+
+.route-wrapper{
+	background: #fff;
+	box-shadow: @base-shadow;
+}
 
 .route-header{
-	.px2rem(height, 118px);
-	.px2rem(padding-left, 33px);
+	.px2rem(height, 120px);
+	.px2rem(padding-left, 30px);
 	display: flex;
 	flex-direction:row;
 	align-items: center;
@@ -14,33 +43,31 @@
 .route-header-logo{
 	display: block;
 	border-radius: 999px;
+	border:@base-border;
 	.px2rem(height,60px);
 	.px2rem(width,60px);
-	.px2rem(margin-right,18px);	
-
+	.px2rem(margin-right,20px);	
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 .route-header-text{
 	color: #282828;
-	.px2px(font-size,18px);	
+	.px2px(font-size,30px);	
 }
-.route-header-logo_sf{
-	background: url(./images/sf_logo.png) no-repeat;
-	background-size: cover;
-}
+
 .route-header-line{
-	.px2rem(margin-right,26px);
-	.px2rem(margin-left,26px);	
+	.px2rem(margin-right,20px);
+	.px2rem(margin-left,20px);	
 }
 .route-list{
-	border-top:1px solid #dddddd;
 	.px2rem(margin-left,39px);
-	.px2rem(padding-top,12px);
+	.px2rem(padding-top,40px);
 	border-left: 1px solid #dddddd;
 }
 .route-list-item{
 	.px2rem(padding-left,28px);
-	.px2rem(padding-top,24px);
-	.px2px(font-size,16px);
+	.px2rem(padding-right,39px);
+	.px2rem(padding-bottom,40px);
 	position: relative; 
 	.dot{
 		display: block;
@@ -55,9 +82,14 @@
 	}
 	.con-msg{
 		color: #585858;
+		word-break: break-all;
+		.px2px(font-size,24px);
+		.px2px(line-height,24px);
+		.px2rem(margin-bottom,16px);
 	}
 	.con-date{
 		color: #8e8e8e;
+		.px2px(font-size,20px);
 	}
 	.con-date-time{
 		.px2rem(margin-left,10px);

@@ -6,6 +6,14 @@
 	border-bottom:#e2e2e2 solid 4px;
 	.px2rem(margin-bottom, 20px);
 }
+.waybillItem_showLog{
+	.waybillItem-btm-icon2{
+		transform:rotate(180deg);
+	}
+	.waybillItem-log{
+		display: block;
+	}
+}
 .waybillItem-header{
 	.px2rem(padding-left, 30px);
 	.px2rem(padding-top, 12px);
@@ -62,6 +70,7 @@
 	display: flex;
 	align-items:center;
 }
+
 .waybillItem-btm-icon1{
 	.px2rem(height, 30px);
 	.px2rem(width, 30px);
@@ -75,6 +84,7 @@
 	.px2rem(width, 30px);
 	.px2rem(line-height, 30px);
 	.px2px(font-size, 30px);
+	transition:all 0.2s ease;
 	display: inline-block;
 	text-align: center;
 	color: #c4c4c4;
@@ -91,6 +101,7 @@
 	color: @base-color;
 }
 .waybillItem-log{
+	display: none;
 	border-top: 1px solid #e2e2e2;
 	.loading_small{
 		margin-top: 20px;
