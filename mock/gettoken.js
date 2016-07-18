@@ -7,7 +7,7 @@ router.get('/',function (req, res, next){
 	res.json({
 		respCode:'0',
 		respMsg:'成功',
-		token:'123425435435',
+		token:'',
 		phone:''
 	});
 });

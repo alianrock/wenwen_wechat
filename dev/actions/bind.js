@@ -1,7 +1,7 @@
 import reqwest from 'reqwest';
-import {tipShowAndFade} from './tip';
+import {tipShow,tipShowAndFade} from './tip';
 import {API,CODE_MAP,SERVER_ERR_TIP,COOKIE_NAME_TOKEN} from '../config';
-import {getQueryString,getUserCookie,setUserCookie} from '../utils';
+import {getQueryString,setTokenCookie} from '../utils';
 import {receiveUser} from './user';
 //获取验证码acitons
 export const START_GET_CODE = 'START_GET_CODE';
@@ -99,35 +99,35 @@ export function bindFail(err, msg){
 
 
 //绑定
-export function bind(code,tel,callback){
+export function bind(data,rebind,callback){
 	return dispatch => {
 		const wxcode = getQueryString('code');
 
 		//找不到code参数
-		if(!code) {
-			dispatch(getUserFail('code_err','code_err'));
+		if(!wxcode) {
 			dispatch(tipShow(SERVER_ERR_TIP));
-				return;
+			return;
 		}
+
+		data.code = rebind?null:wxcode,
+		data.direct = 'user';
+		data.action = rebind?'updateTel':'bindingTel';
 
 		dispatch(startBind());
 		return reqwest({
 			url:'/mock/bine',
 			type:'json',
-			data:{
-				direct:'user',
-				action:'bindingTel',
-				code:wxcode,
-				phone:tel,
-				verificationCode:code
-			}
+			data:data
 		})
 		.then(res => {
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveBineResult(res));
-				setUserCookie(res.token,res.phone);
-				dispatch(receiveUser({token:res.token,phone:res.phone}));
-				dispatch(tipShowAndFade('绑定成功！'));
+				setTokenCookie(data.token||res.token);
+				dispatch(receiveUser({
+							token:data.token||res.token,
+							phone:data.phone
+						}));
+				dispatch(tipShowAndFade(rebind?'重新绑定成功！':'绑定成功!'));
 				if(callback){
 					callback();
 				}

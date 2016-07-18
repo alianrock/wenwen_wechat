@@ -16,12 +16,21 @@ import * as userActions from '../../actions/user';
 
 class RouteInquireCon extends Component {
 
+	constructor(props,context){
+		super(props,context);
+		this.back = (this.props.params && this.props.params.back) || 'bind';
+	}
+	
 	componentWillMount(){
 		this.props.userActions.getUser();
 	}
 
 	handleBineCallBack(){
-		hashHistory.push('/bind');
+		if(this.back == 'toindex'){
+			hashHistory.push('/');
+		}else{
+			hashHistory.push('/'+this.back);
+		}
 	}
 
 	render() {
@@ -33,15 +42,22 @@ class RouteInquireCon extends Component {
 		if(route.isRequesting || bind.bindCode.isRequesting || bind.bindTel.isRequesting || user.isRequesting) {
 			loadingComponent = <Loading />;
 		}
-		if(!user.tel){
+		if(!user.token){
 			bindComponent = (
-					<Bind  bindTelResult = {bind.bindTel} bindCodeResult = {bind.bindCode} bind = {bindActions.bind} getCode = {bindActions.getCode} tipShowAndFade = {tipActions.tipShowAndFade} bindCallBack = {this.handleBineCallBack.bind(this)}/>
-				);
+				<Bind  bindTelResult = {bind.bindTel} 
+					bindCodeResult = {bind.bindCode} 
+					bind = {bindActions.bind} 
+					getCode = {bindActions.getCode} 
+					tipShowAndFade = {tipActions.tipShowAndFade} 
+					bindCallBack = {this.handleBineCallBack.bind(this)}/>
+			);
 		}
 
 		return (
 			<div>
-				<RouteInquire user = {user} requestRoute = {routeActions.requestRoute} tipShowAndFade = {tipActions.tipShowAndFade}/>
+				<RouteInquire 
+					requestRoute = {routeActions.requestRoute} 
+					tipShowAndFade = {tipActions.tipShowAndFade}/>
 				{bindComponent}
 				{loadingComponent}
 				<Tip text = {tip.text} showTip = {tip.showTip} />
@@ -55,9 +71,11 @@ RouteInquireCon.propTypes = {
 	route: PropTypes.object.isRequired,
 	tip:PropTypes.object.isRequired,
 	bind:PropTypes.object.isRequired,
+	user:PropTypes.object.isRequired,
 	routeActions:PropTypes.object.isRequired,
 	tipActions:PropTypes.object.isRequired,
-	bindActions: PropTypes.object.isRequired
+	bindActions: PropTypes.object.isRequired,
+	userActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state){

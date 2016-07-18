@@ -14,8 +14,16 @@ export default class WaybillArriveCoverTime extends Component {
       		value: NIGHT_DELIVER_OPTION[this.props.timeIndex || 0].value
 		}
 	}
+	handleConfrim(){
+		const {data,chooseWay,user} = this.props;
+		if(data.appointTime == this.state.value) return;
+		this.props.changeDiliverWay(user.token,{
+			dataId:data.dataId,
+			dispatchingWay:chooseWay,
+			appointTime:this.state.value
+		});
+	}
 	onChange(value) {
-	    console.log('onChange', value);
 	    this.setState({
 	      value,
 	    });
@@ -34,9 +42,16 @@ export default class WaybillArriveCoverTime extends Component {
 					</Picker>
 				</div>
 				
-				<div className = 'waybillArriveCover-confirm'>确定</div>
+				<div className = 'waybillArriveCover-confirm' onClick = {this.handleConfrim.bind(this)}>确定</div>
 
 			</div>
 		);
 	}
+}
+WaybillArriveCoverTime.propTypes = {
+	changeDiliverWay:PropTypes.func.isRequired,
+	show:PropTypes.bool.isRequired,
+	user:PropTypes.object.isRequired,
+	data:PropTypes.object.isRequired,
+	chooseWay:PropTypes.string.isRequired
 }

@@ -1,6 +1,6 @@
 import reqwest from 'reqwest';
 import {API,CODE_MAP,SERVER_ERR_TIP} from '../config';
-import {getQueryString,setUserCookie,getUserCookie} from '../utils';
+import {getQueryString,setTokenCookie,getTokenCookie} from '../utils';
 import {tipShow} from './tip';
 
 export const START_GET_USER = 'START_GET_USER';
@@ -35,19 +35,12 @@ export function receiveUser(result){
 
 //从本地获取user
 function getUserFromLocal(dispatch,callback){
-	const userToken = getUserCookie().userToken;
-	const userTel = getUserCookie().userTel;
+	const userToken = getTokenCookie();
 	//判断本地是否有缓存
-	if(userToken && userTel){
-		dispatch(receiveUser({token:userToken,phone:userTel}));
-		if(callback){
-			callback(userToken,userTel);
-		}
-		return true;
-	}else if(userToken){
+	if(userToken){
 		dispatch(receiveUser({token:userToken}));
 		if(callback){
-			callback(userToken,userTel);
+			callback(userToken);
 		}
 		return true;
 	}
@@ -58,7 +51,18 @@ function getUserFromLocal(dispatch,callback){
 //获取user
 export function getUser(callback){
 	return (dispatch) => {
-		dispatch(startGetUser());
+
+		//从cookie获取user
+		if(getUserFromLocal(dispatch,callback)) return;
+
+		//从服务器获取user
+		dispatch(getUserFromRemote(callback));
+
+	}
+}
+
+export function getUserFromRemote(callback){
+	return (dispatch) => {
 		const code = getQueryString('code');
 
 		//找不到code参数
@@ -68,34 +72,32 @@ export function getUser(callback){
 				return;
 		}
 
-		//从cookie获取user
-		if(getUserFromLocal(dispatch,callback)){
-			
-			return;
-		}
+		dispatch(startGetUser());
 
 		return reqwest({
-			url: API.getUser,
-			type:'json',
-			data:{
-				direct:'user',
-				action:'getToken',
-				code: code
-			}
-		}).then((res) => {
-			if(CODE_MAP[res.respCode].pass){
-				setUserCookie(res.token,res.phone);
-				dispatch(receiveUser(res));
-				if(callback){
-					callback(res.token,res.phone);
+				url: API.getUser,
+				type:'json',
+				data:{
+					direct:'user',
+					action:'getToken',
+					code: code
 				}
-			}else{
-				dispatch(getUserFail(res.respCode,CODE_MAP[res.respCode].msg));
-				dispatch(tipShow(CODE_MAP[res.respCode].msg));
-			}
-		}).fail((err,msg) =>{
-			dispatch(getUserFail(err,msg));
-			dispatch(tipShow(SERVER_ERR_TIP));
-		});
+			}).then((res) => {
+				if(CODE_MAP[res.respCode].pass){
+					if(res.respCode !== '1'){
+						setTokenCookie(res.token);
+						dispatch(receiveUser(res));
+					}
+					if(callback){
+						callback(res.token);
+					}
+				}else{
+					dispatch(getUserFail(res.respCode,CODE_MAP[res.respCode].msg));
+					dispatch(tipShow(CODE_MAP[res.respCode].msg));
+				}
+			}).fail((err,msg) =>{
+				dispatch(getUserFail(err,msg));
+				dispatch(tipShow(SERVER_ERR_TIP));
+			});
 	}
 }

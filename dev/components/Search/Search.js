@@ -7,9 +7,9 @@ export default class Search extends Component {
 	}
 	
 	handleChange(e){
+		let value = e.target.value.trim();
 		clearTimeout(this.timer);
-		this.timer = setTimeout(function(){
-			let value =e.target.value.trim();
+		this.timer = setTimeout(function(e){
 			this.props.filter(value);
 		}.bind(this),200);
 	}

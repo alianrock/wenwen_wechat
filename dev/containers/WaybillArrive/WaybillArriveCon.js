@@ -10,24 +10,46 @@ import Loading from '../../components/Loading/Loading';
 import Tip from '../../components/Tip/Tip';
 
 import * as waybillArriveActions from '../../actions/waybillArrive'; 
-import * as tipActions from '../../actions/tip';
-import * as userActions from '../../actions/user';
+import {getUser} from '../../actions/user';
+import {tipShowAndFade} from '../../actions/tip';
 
 
 class WaybillArriveCon extends Component {
+	
+	constructor(props, context){
+		super(props,context);
+		// this.constructor.childContextTypes =  {
+		//     user: PropTypes.object.isRequired
+		// }
+	}
+	
+	// getChildContext() {
+	// 	console.log('contxt',this.props.user);
+	//     return {user: this.props.user};
+	// }
+
 	componentWillMount(){
-		const {userActions,waybillArriveActions} = this.props;
-		userActions.getUser(function(token,tel){
-			if(!tel){
-				hashHistory.push('/bind');
+		const {getUser,waybillActions} = this.props;
+		getUser(function(token){
+			if(!token){
+				hashHistory.push('/bind/toindex');
 			}else{
-				waybillArriveActions.getList(token);	
+				waybillActions.getList(token,'ex2u',0);
 			}
-			
 		}.bind(this));
 	}
+	
+	getCompleteList(){
+		const {waybillActions,user} = this.props;
+		waybillActions.getList(user.token,'ex2u',1);	
+	}
+	getNoCompleteList(){
+		const {waybillActions,user} = this.props;
+		waybillActions.getList(user.token,'ex2u',0);	
+	}
+
 	render(){
-		const {waybillActions,tipActions,
+		const {waybillActions,tipShowAndFade,
 				user,waybillArrive,tip} = this.props; 
 		let loadingComponent;
 		if(user.isRequsting || waybillArrive.isRequesting) {
@@ -36,15 +58,28 @@ class WaybillArriveCon extends Component {
 		return (
 			<div>
 				<WaybillArriveList 
-					list = {waybillArrive.lis} 
-					waybillActions = {waybillActions}
-					tipActions = {tipActions}/>
+					getCompleteList = {this.getCompleteList.bind(this)}
+					getNoCompleteList = {this.getNoCompleteList.bind(this)}
+					tipShowAndFade = {tipShowAndFade}
+					user = {user} 
+					waybillArrive = {waybillArrive} 
+					waybillActions = {waybillActions}/>
 				{loadingComponent}
 				<Tip text = {tip.text} showTip = {tip.showTip} />
 			</div>
 		);
 	}
 }
+
+WaybillArriveCon.propTypes = {
+	tip:PropTypes.object.isRequired,
+	user:PropTypes.object.isRequired,
+	waybillArrive:PropTypes.object.isRequired,
+	waybillActions:PropTypes.object.isRequired,
+	getUser:PropTypes.func.isRequired,
+	tipShowAndFade:PropTypes.func.isRequired
+}
+
 function mapStateToProps(state){
 	return {
 		waybillArrive: state.waybillArrive,
@@ -56,8 +91,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
 	return {
 		waybillActions: bindActionCreators(waybillArriveActions, dispatch),
-		tipActions: bindActionCreators(tipActions,dispatch),
-		userActions: bindActionCreators(userActions,dispatch)
+		tipShowAndFade: bindActionCreators(tipShowAndFade,dispatch),
+		getUser: bindActionCreators(getUser,dispatch)
 	}
 }
 

@@ -1,0 +1,214 @@
+@import '../../style/minxis.less';
+@import '../../style/theme.less';
+
+.addressEdit-wrapper{
+	.fullScreen();
+	overflow: hidden;
+}
+.addressEdit-user{
+	.px2rem(padding-left,30px);
+	.px2rem(padding-right,30px);
+	.px2rem(margin-bottom,20px);
+	border-bottom: 2px solid #e2e2e2;
+	background: #fff;
+}
+.addressEdit-inputWraaper{
+	display: flex;
+	align-items:center;
+	border-bottom: 1px solid #e2e2e2;
+	margin-bottom: -1px;
+	.px2rem(height,90px);
+	.icon{
+		display: block;
+		.px2rem(font-size,24px);
+		.px2rem(width,24px);
+		.px2rem(height,24px);
+		.px2rem(margin-right,20px);
+		color: #d0d0d0;
+	}
+	.icon-close,.icon-left{
+		color: #aaaaaa;
+		.px2rem(width,30px);
+		.px2rem(width,30px);
+		.px2rem(font-size,30px);
+	}
+
+}
+.addressEdit-input{
+	border:none;
+	background: none;
+	.px2rem(height,30px);
+	.px2rem(line-height,30px);
+	.px2rem(padding-top,30px);
+	.px2rem(padding-bottom,30px);
+	.px2px(font-size,30px);
+	flex:1 1 auto;
+	color: #585858; 
+	display: block;
+}
+.addressEdit-text{
+	flex:1 1 auto;
+	display: block;
+	.px2px(font-size,30px);
+}
+.addressEdit-addr{
+	background: #fff;
+	border-bottom: 2px solid #e2e2e2;
+	.px2rem(padding-left,30px);
+	.px2rem(padding-right,30px);
+}
+.addressEdit-btnw{
+	.px2rem(margin-top,50px);
+	.px2rem(padding-left,30px);
+	.px2rem(padding-right,30px);
+}
+.addressEdit-btn_add{
+	.btn(@base-color,#fff,80px,32px,4px);
+	.px2rem(margin-bottom,32px);
+}
+.addressEdit-btn_delete{
+	.btn(#fff,@base-color,80px,32px,4px);
+	border:1px solid @base-color;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.addressEdit-toggle{
+	.px2rem(height,30px);
+	.px2rem(width,60px);
+	background: #fff;
+	border-radius: 999px;
+	border:1px solid @base-color;
+	transition:all 0.2s ease;
+	.dot{
+		display: block;
+		.px2rem(height,30px);
+		.px2rem(width,30px);
+		background:  #fff;
+		border-radius: 999px;
+		transition:margin 0.2s ease;
+		box-sizing: border-box;
+		border:1px solid @base-color;
+	}
+}
+.addressEdit-toggle_active{
+	background: @base-color;
+	.dot{
+		.px2rem(margin-left,30px);
+	}
+}
+
+//地址选择
+.addressSelect-wrapper{
+	.fullScreen();
+    overflow-y: auto;
+	background: #f4f4f4;
+	transform:translate3d(100%,0,0);
+	transition:all 0.2s ease;
+}
+.addressSelect-wrapper_show{
+	transform:translate3d(0,0,0);
+}
+.addressSelect-wrapper .addressSelect-back{
+	.px2rem(width,40px);
+	.px2rem(height,40px);
+	.px2rem(font-size,40px);
+	position:absolute;
+	.px2rem(left,30px);
+	.px2rem(top,37px);
+}
+.addressSelect{
+	.px2rem(width,578px);
+	margin: 0 auto;
+	.px2rem(margin-bottom,70px);
+	.px2rem(margin-top,150px);
+	border-radius: 4px;
+	background: #fff;
+	border:@base-border;
+	box-shadow: @base-shadow;
+}
+.addressSelect-item{
+	border-bottom: @base-border;
+}
+.addressSelect-header{
+	color: #585858;
+	.px2px(font-size,30px);
+	.px2rem(padding-left,20px);
+	.px2rem(padding-right,20px);
+	.px2rem(padding-top,30px);
+	.px2rem(padding-bottom,30px);
+	display: flex;
+	align-items:center;
+	.text{
+		flex:1 1 auto;
+		display: block;
+	}
+	.icon{
+		.px2rem(width,30px);
+		.px2px(font-size,30px);
+		color: #c4c4c4;
+		transition:all 0.2s ease;
+	}
+}
+.addressSelect-list{
+	.px2rem(height,223px);
+	.px2rem(padding-top,30px);
+	.px2rem(margin-left,20px);
+	border-top: @base-border;
+	overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: none;
+	.item{
+		float: left;
+		display: block;
+		.px2rem(width,110px);
+		.px2rem(height,46px);
+		.px2rem(line-height,26px);
+		.px2rem(padding,10px);
+		.px2rem(margin-bottom,25px);
+		.px2rem(margin-right,28px);
+		box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		text-align: center;
+		.px2px(font-size,20px);
+		border-radius: 8px;
+		border:1px solid #d0d0d0;
+		position: relative;
+		.text{
+			display: block;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow:ellipsis;
+		}
+	}
+	.item_loading{
+		.px2rem(margin-top,80px);
+	}
+	.icon-check2{
+		display: none;
+		position: absolute;
+		.px2rem(top,-8px);
+		.px2rem(right,-8px);
+		.px2rem(font-size,26px);
+	}
+	.item_select{
+		border-color: @base-color;
+		color: @base-color;
+		.icon-check2{
+			display: block;
+		}
+	}
+}
+.addressSelect-item_open{
+	.addressSelect-list{
+    	display: block;
+	}
+	.icon-down{
+		transform:rotate(180deg);
+	}
+}
+.addressSelect-btn{
+	.px2rem(margin-top,70px);
+	.px2rem(width,578px);
+	margin: 0 auto;
+	.btn(@base-color,#fff,80px,30px,4px);
+}

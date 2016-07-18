@@ -10,7 +10,6 @@ export default class RouteInquire extends Component {
 			componey:'请选择快递公司哦',
 			componeyCode:''
 		}
-		
 	}
 
 	//选择快递公司
@@ -66,7 +65,7 @@ export default class RouteInquire extends Component {
 						{/*<i className = 'routerq-inputicon_2 icon icon-xiangji'></i>*/}
 					</div>	
 				</form>
-				<span className = 'routerq-submit' onClick = {this.handleRouteSubmit.bind(this)}>查询</span>			
+				<div className = 'routerq-submit' onClick = {this.handleRouteSubmit.bind(this)}>查询</div>			
 			</div>
 		)
 	}

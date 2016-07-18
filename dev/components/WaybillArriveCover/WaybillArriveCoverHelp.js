@@ -3,13 +3,21 @@ import WaybillArriveCover from './WaybillArriveCover.less';
 import classNames from 'classNames';
 
 
-export default class WaybillArriveCoverHelp extends Component {handleConfrim(e){
-		const tel = this.refs.tel.trim();
-		const text = this.ref.tel.trim();
+export default class WaybillArriveCoverHelp extends Component {
+	handleConfrim(e){
+		const tel = this.refs.tel.value.trim();
+		const text = this.refs.msg.value.trim();
+		const {tipShowAndFade,changeDiliverWay,user,chooseWay,data} = this.props;
 		if(!/^1[3-9]\d{9}$/.test(tel)){
 			this.props.tipShowAndFade('请填写正确的电话号码');
+			return;
 		}
-		this.props.changeWay();
+		this.props.changeDiliverWay(user.token,{
+			dataId:data.dataId,
+			dispatchingWay:chooseWay,
+			phone:tel,
+			remark:text||''
+		});
 	}
 	render(){
 		const helpClass = classNames({
@@ -25,7 +33,7 @@ export default class WaybillArriveCoverHelp extends Component {handleConfrim(e){
 					</div>
 					<div className = 'inputwrapper'>
 						<span className = 'icon icon-pencil'></span>
-						<textarea ref='text' className = 'textarea'  placeholder = '请填写留言信息'/>
+						<textarea ref='msg' className = 'textarea'  placeholder = '请填写留言信息'/>
 
 					</div>
 				</from>
@@ -34,4 +42,12 @@ export default class WaybillArriveCoverHelp extends Component {handleConfrim(e){
 			</div>
 		);
 	}
+}
+WaybillArriveCoverHelp.propTypes = {
+	tipShowAndFade:PropTypes.func.isRequired,
+	changeDiliverWay:PropTypes.func.isRequired,
+	show:PropTypes.bool.isRequired,
+	user:PropTypes.object.isRequired,
+	data:PropTypes.object.isRequired,
+	chooseWay:PropTypes.string.isRequired
 }

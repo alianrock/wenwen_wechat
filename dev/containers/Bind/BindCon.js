@@ -8,23 +8,23 @@ import Bind from '../../components/Bind/Bind';
 import HadBind from '../../components/Bind/HadBind';
 
 import * as bindActions from '../../actions/bind';
-import * as userActions from '../../actions/user';
-import * as tipActions from '../../actions/tip';
+import {getUserFromRemote} from '../../actions/user';
+import {tipShowAndFade} from '../../actions/tip';
 
-import './style.less'
-
+import style from './style.less';
 
 class BindCon extends Component {
 	constructor(props,context){
 		super(props,context);
+		this.back = (this.props.params && this.props.params.back) || null;
 		this.state = {
 			rebind:false
 		}
 	}
 	componentDidMount(){
-		const {user,userActions} = this.props;
+		const {user,getUserFromRemote} = this.props;
 		if(!user.token){
-			userActions.getUser();
+			getUserFromRemote();
 		}
 	}
 	handleRebind(){
@@ -39,28 +39,37 @@ class BindCon extends Component {
 		});
 	}
 
+	
+
 	render(){
-		const {tip,user,bind,bindActions,tipActions} = this.props;
+		const {tip,user,bind,bindActions,tipShowAndFade} = this.props;
 		let loadingComponent;
 		let mainComponent;
 		if(user.isRequesting || bind.bindCode.isRequesting || bind.bindTel.isRequesting) {
 			loadingComponent = <Loading />;
 		}
-
-		if(!user.tel || this.state.rebind){
+		if(!user.token || this.state.rebind){
 			mainComponent = (
 				<div className = 'bindCon-nobind'>
 					<h1 className = 'bindCon-title'>关联手机号码验证</h1>
-					<Bind  bindTelResult = {bind.bindTel} bindCodeResult = {bind.bindCode} bind = {bindActions.bind} getCode = {bindActions.getCode} tipShowAndFade = {tipActions.tipShowAndFade} handleBind = {this.handleBind.bind(this)}/>
+					<Bind  
+						bindTelResult = {bind.bindTel} 
+						bindCodeResult = {bind.bindCode}
+						rebind = {this.state.rebind} 
+						bind = {bindActions.bind} 
+						getCode = {bindActions.getCode}
+						user = {user}
+						tipShowAndFade = {tipShowAndFade} 
+						handleBind = {this.handleBind.bind(this)}/>
 				</div>
 				);
 		}else{
-			mainComponent = <HadBind tel = {user.tel} handleRebind = {this.handleRebind.bind(this)}/>;
+			mainComponent = <HadBind back = {this.back} tel = {user.tel} handleRebind = {this.handleRebind.bind(this)}/>;
 		}
 
 		return (
 			<div className = 'bindCon-wrapper'>
-					
+				
 				{mainComponent}
 
 				{loadingComponent}
@@ -69,6 +78,16 @@ class BindCon extends Component {
 		);
 	}
 }
+
+BindCon.propTypes = {
+	tip:PropTypes.object.isRequired,
+	user:PropTypes.object.isRequired,
+	bind:PropTypes.object.isRequired,
+	bindActions:PropTypes.object.isRequired,
+	getUserFromRemote:PropTypes.func.isRequired,
+	tipShowAndFade:PropTypes.func.isRequired
+}
+
 function mapStateToProps(state){
 	return {
 		tip:state.tip,
@@ -80,8 +99,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
 	return {
 		bindActions: bindActionCreators(bindActions, dispatch),
-		tipActions: bindActionCreators(tipActions,dispatch),
-		userActions: bindActionCreators(userActions,dispatch)
+		tipShowAndFade: bindActionCreators(tipShowAndFade,dispatch),
+		getUserFromRemote: bindActionCreators(getUserFromRemote,dispatch)
 	}
 }
 

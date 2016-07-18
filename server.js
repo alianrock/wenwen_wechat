@@ -10,7 +10,8 @@ var port = 3000;
 var compiler = webpack(config);
 app.use(webpackDevMiddleware(compiler, {hot:true,noInfo: true, publicPath: config.output.publicPath}));
 app.use(webpackHotMiddleware(compiler));
-app.use('/static', express.static(__dirname + '/dev/html/'));
+app.use('/dev', express.static(__dirname + '/dev/'));
+app.use('/build', express.static(__dirname + '/dist/'));
 
 app.get('/',function(req, res){
 	res.sendFile(__dirname + '/dev/html/');

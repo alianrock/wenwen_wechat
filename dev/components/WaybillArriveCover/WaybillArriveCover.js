@@ -10,31 +10,37 @@ export default class WaybillArriveCover extends Component {
 	constructor(props,context){
 		super(props,context);
 		this.btnList = [
-				{name:'到店自取',way:'0',type:'0',label:'shop'},
 				{name:'配送上门',way:'3',type:'0',label:'deliver'},
 				{name:'找人代拿',way:'1',type:'0',label:'help'},
-				{name:'隔天取件',way:'2',type:'1',label:'nextday'},
-				{name:'白天配送',way:'3',type:'1',label:'day'},
-				{name:'夜间配送',way:'4',type:'1',label:'night'}];
+				{name:'隔天取件',way:'2',type:'0',label:'nextday'},
+				{name:'到店自取',way:'0',type:'1',label:'shop'},
+				{name:'白天配送',way:'3',type:'1',label:'day'}];
+				// {name:'夜间配送',way:'4',type:'1',label:'night'}
 		this.state = {
-			chooseWay:'0',
+			chooseWay:'',
 			showAddress:false,
 			showTime:false,
 			showHelp:false
 		}
 	}
 	componentWillReceiveProps(nextProps){
-		this.setState({
-			chooseWay: nextProps.data.dispatchingWay
-		})
+		if(!this.state.chooseWay){
+			this.setState({
+				chooseWay: nextProps.data.dispatchingWay
+			});
+		}
+		if(!nextProps.coverShow){
+			console.log(this.props.coverShow);
+			this.setState({
+				chooseWay:'',
+				showAddress:false,
+				showTime:false,
+				showHelp:false
+			});
+		}
 	}
 	handleClose(e){
-		e.preventDefault();
-		this.setState({
-			showAddress:false,
-			showTime:false,
-			showHelp:false
-		});
+		if(e && e.preventDefault) e.preventDefault();
 		this.props.hideCover();	
 	}
 	handleWayBtnTap(way){
@@ -43,14 +49,26 @@ export default class WaybillArriveCover extends Component {
 		});
 	}
 	handleConfirmBtnTap(){
-		if(this.props.dispatchingWay == this.state.chooseWay) return;
+		const {data,changeDiliverWay,user}  = this.props;
+		if(data.dispatchingWay == this.state.chooseWay) {
+			this.handleClose();
+			return;
+		}
+
+		const changeData = {
+			dataId:data.dataId,
+			dispatchingWay:this.state.chooseWay
+		}
 		switch(this.state.chooseWay){
 			case '3':
 				//获取当前this.props.pickuptype，如果不是配送件，就设置state
-				//if(type == )
-				this.setState({
-					showAddress:true
-				});
+				if(data.pickupType === '0'){
+					this.setState({
+						showAddress:true
+					});
+				}else{
+					changeDiliverWay(user.token,changeData);
+				}
 				break;
 			case '4':
 				this.setState({
@@ -64,10 +82,7 @@ export default class WaybillArriveCover extends Component {
 				break;
 			case '0':
 			case '2':
-			case '5':
-				//5在接口是没有的，所以要进行转换
-				if(this.state.changeWay == 5){}
-				this.props.changeWay();
+				changeDiliverWay(user.token,changeData);
 				break;
 			default:
 				break;
@@ -80,16 +95,19 @@ export default class WaybillArriveCover extends Component {
 			showHelp:false
 		});
 	}
-	renderBtn(type,way){
+	renderBtn(){
+		const type = this.props.data.pickupType;
+		const way = this.state.chooseWay;
 		let btnListDom = [];
+
+		if(!this.props.coverShow) return;
 		this.btnList.map((btn) =>{
 			if(btn.type === type){
 				let activeClass = (way == btn.way?'waybillArriveCover-btn_active':'');
 				btnListDom.push(
 					<div className = {'waybillArriveCover-btn ' + activeClass} 
 						onClick = { () => this.handleWayBtnTap(btn.way)}
-						 key = {btn.way} 
-					>
+						 key = {btn.way} >
 						<span className = {'icon icon-' + btn.label}></span>{btn.name}
 					</div>
 				);
@@ -112,21 +130,50 @@ export default class WaybillArriveCover extends Component {
 			'waybillArriveCover-btnw_fade':(this.state.showTime || this.state.showAddress || this.state.showHelp)
 
 		});
+		const {tipShowAndFade,changeDiliverWay,getAddrList,user,addrList,data} =  this.props;
 		return (
 			<div className = {coverClass}>
 				<span className = 'waybillArriveCover-close' onClick = {this.handleClose.bind(this)}></span>
 				
 				{this.renderBackBtn()}
 				<div className = {btnwClass} ref= 'bntw' >
-					{this.renderBtn(this.props.data.pickUpType,this.state.chooseWay)}
+					{this.renderBtn()}
 					<div className = 'waybillArriveCover-btn waybillArriveCover-confrim' onClick = {this.handleConfirmBtnTap.bind(this)}>确定
 					</div>
 				</div>
-				<WaybillArriveCoverAddress tipShowAndFade = {this.props.tipShowAndFade} changeWay = {this.props.changeWay} show = {this.state.showAddress}/>
-				<WaybillArriveCoverTime changeWay = {this.props.changeWay} show = {this.state.showTime}/>
-				<WaybillArriveCoverHelp tipShowAndFade = {this.props.tipShowAndFade} changeWay = {this.props.changeWay} show = {this.state.showHelp}/>
+				<WaybillArriveCoverAddress 
+					getAddrList = {getAddrList} 
+					tipShowAndFade = {tipShowAndFade} 
+					changeDiliverWay = {changeDiliverWay} 
+					show = {this.state.showAddress} 
+					user = {user} 
+					addrList = {addrList}
+					data = {data}
+					chooseWay = {this.state.chooseWay}/>
+				<WaybillArriveCoverTime user = {user} changeDiliverWay = {changeDiliverWay} 
+					show = {this.state.showTime}
+					data = {data}
+					chooseWay = {this.state.chooseWay}/>
+				<WaybillArriveCoverHelp 
+					tipShowAndFade = {tipShowAndFade} 
+					changeDiliverWay = {changeDiliverWay} 
+					show = {this.state.showHelp}
+					user = {user} 
+					data = {data}
+					chooseWay = {this.state.chooseWay}/>
 
 			</div>
 		);
 	}
+}
+
+WaybillArriveCover.propTypes = {
+	user:PropTypes.object.isRequired,
+	data:PropTypes.object.isRequired,
+	addrList:PropTypes.array.isRequired,
+	coverShow:PropTypes.bool.isRequired,
+	hideCover:PropTypes.func.isRequired,
+	changeDiliverWay:PropTypes.func.isRequired,
+	tipShowAndFade:PropTypes.func.isRequired,
+	getAddrList:PropTypes.func.isRequired
 }

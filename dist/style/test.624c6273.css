@@ -1,0 +1,1 @@
+.g_wrapper,.wrapper{height:100%;width:100%}.wrapper{background:#eee}.inner1{left:50%;top:50%;z-index:2;background:red}.inner1,.inner2{position:absolute;width:400px;height:400px;-webkit-transform:translate3d(-50%,-50%,0);transform:translate3d(-50%,-50%,0)}.inner2{left:40%;top:40%;z-index:1;background:green}input{height:100%;width:100%}

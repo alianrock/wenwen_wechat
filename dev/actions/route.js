@@ -1,5 +1,5 @@
 import reqwest from 'reqwest';
-import {tipShow} from './tip';
+import {tipShow,tipShowAndFade} from './tip';
 import {API,CODE_MAP,SERVER_ERR_TIP} from '../config';
 import {getUser} from './user';
 export const START_REQUEST_ROUTE = 'START_REQUEST_ROUTE'; 
@@ -55,14 +55,17 @@ export function requestRouteFail(err, msg){
 // }
 
 //请求路由信息
-export function requestRoute(token,ShipperCode,number){
+export function requestRoute(ShipperCode,number){
+	if(!ShipperCode || !number){
+		tipShowAndFade('查询信息不全哦');
+		return;
+	}
 	return (dispatch) => {
 		dispatch(startRequestRoute());
 		return reqwest({
 			url: API.getRoute,
 			type:'json',
 			data:{
-				token: token,
 				direct:'track',
 				action:'query',
 				ShipperCode:ShipperCode,
@@ -73,7 +76,7 @@ export function requestRoute(token,ShipperCode,number){
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveRoute(res));
 			}else{
-				dispatch(getUserFail(res.respCode,CODE_MAP[res.respCode].msg));
+				dispatch(requestRouteFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShow(CODE_MAP[res.respCode].msg));
 			}
 		})	

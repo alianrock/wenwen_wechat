@@ -5,25 +5,27 @@
 	.px2rem(width,300px);
 	.px2rem(height,150px);
 	.px2rem(padding,20px);
-
 	background: rgba(80, 80, 80, 0.61);
 	box-shadow: 0 0 10px rgba(218, 218, 218, 0.7);
 	position: fixed;
 	left: 50%;	
 	top: 50%;
 	border-radius: 10px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
 	transform: translate3d(-50%,-50%,0);
 	display: none;
-	align-items:center;
-	justify-content: center;
 	box-sizing: border-box;
+	z-index: 100000;
 }
 .tip-name{
 	color: #fff;
-	text-align: center;
 }
 .tip-show{
 	display: flex;
+	align-items:center;
+	justify-content:center;
 }
 .tip-fadeIn{
   	animation: tipfadein 1.2s 2s forwards ease-in-out;

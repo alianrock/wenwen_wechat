@@ -18,6 +18,8 @@
 	.px2rem(padding-left, 30px);
 	.px2rem(padding-top, 12px);
 	.px2rem(padding-bottom, 26px);
+	.px2rem(padding-right, 30px);
+
 	.px2rem(line-height, 32px);
 	.px2px(font-size, 24px);
 	color:#585858;
@@ -34,6 +36,9 @@
 	align-items: center;
 	border-bottom: 1px solid #e2e2e2;
 }
+.waybillItem-middle-icon_0,
+.waybillItem-middle-icon_1,
+.waybillItem-middle-icon_2,
 .waybillItem-middle-icon{
 	.px2rem(width, 140px);
 	.px2rem(height, 120px);
@@ -41,7 +46,9 @@
 	background: url(./images/img01-listSJ@3x.png) no-repeat;
 	background-size: cover;
 }
-.waybillItem-middle-icon_2{
+.waybillItem-middle-icon_4,
+.waybillItem-middle-icon_5,
+.waybillItem-middle-icon_3{
 	background-image: url(./images/img02-listSJ@3x.png);
 }
 .waybillItem-middle-btn{
@@ -92,6 +99,7 @@
 }
 .waybillItem-btm-con{
 	flex:1 1 auto;
+	display: block;
 }
 .waybillItem-btm-line{
 	.px2rem(padding-left, 20px);
@@ -169,5 +177,23 @@
 			font-style: normal;
 			color: #0093ea;
 		}
+	}
+}
+
+
+//已取item
+.waybillItem_complete{
+	.waybillItem-header{
+		background-image: url(./images/img-alSign@3x.png);
+		background-repeat: no-repeat;
+		background-size:percentage(94 / 640) percentage(66 / 84);
+		background-position-y: top;
+		.px2rem(background-position-x,453px);  
+		.px2rem(padding-top,30px);
+		display: flex;
+	}
+	.waybillItem-header-con{
+		flex:1 1 auto;
+		display: block;
 	}
 }

@@ -11,11 +11,15 @@ export default class Route extends Component {
 		let route = this.props.route;
 		// console.log((!route.result || !route.result.Traces));
 		if(!route.result || !route.result.Traces) return;
-
-		route.result.Traces.map((item,index) =>{
-			const topClass = index == 0 ? 'route-list-item_top':'';
-			list.push(<li key = {index} className = {'route-list-item '+topClass}><span className = 'dot'></span><div className = 'con'><p className = 'con-msg'>{item.AcceptStation}</p><p className = 'con-date'>{item.AcceptTime}</p></div></li>)
-		});
+		if(route.result.Traces.length == 0){
+			list.push(<li key = 'none'  className = 'route-list-item route-list-item_top'><span className = 'dot'></span><div className = 'con'><p className = 'con-msg'>{route.result.Reason}</p></div></li>);
+		}else{
+			route.result.Traces.map((item,index) =>{
+				const topClass = index == 0 ? 'route-list-item_top':'';
+				list.push(<li key = {index} className = {'route-list-item '+topClass}><span className = 'dot'></span><div className = 'con'><p className = 'con-msg'>{item.AcceptStation}</p><p className = 'con-date'>{item.AcceptTime}</p></div></li>)
+			});
+		}
+		
 		return list;
 	}
 
@@ -34,4 +38,10 @@ export default class Route extends Component {
 			</div>
 		);
 	}
+}
+
+Route.propTypes = {
+	componeyCode:PropTypes.string.isRequired,
+	num:PropTypes.string.isRequired,
+	route:PropTypes.object.isRequired
 }

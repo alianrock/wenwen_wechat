@@ -4,7 +4,7 @@ import {waybillArrive} from '../reducers/waybillArrive';
 import {tip} from '../reducers/tip';
 import {user} from '../reducers/user';
 import {bind} from '../reducers/bind';
-
+import {route} from '../reducers/route';
 
 
 const rootReducer = combineReducers({
@@ -12,7 +12,8 @@ const rootReducer = combineReducers({
 	waybillArrive,
 	user,
 	tip,
-	bind
+	bind,
+	route
 });
 
 

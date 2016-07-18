@@ -48,14 +48,23 @@ export default class Bind extends Component {
 		const code = this.refs.code.value.trim();
 		const tel = this.refs.tel.value.trim();
 		
-		if(this.props.handleBind){
-			this.props.handleBind();
-		}
 		if(!code){
 			this.props.tipShowAndFade('请输入验证码');
 			return;
 		}
-		this.props.bind(code,tel,this.props.bindCallBack);
+		if(!/^1[3-9]\d{9}$/.test(tel)){
+			this.props.tipShowAndFade('请填写正确的电话号码');
+			return;
+		}
+		if(this.props.handleBind){
+			this.props.handleBind();
+		}
+		const data = {
+			verificationCode : code,
+			phone: tel,
+			token: this.props.rebind?this.props.user.token:null 
+		}
+		this.props.bind(data,this.props.rebind,this.props.bindCallBack);
 	}
 
 	render() {
@@ -82,8 +91,11 @@ export default class Bind extends Component {
 
 Bind.propTypes = {
 	getCode: PropTypes.func.isRequired,
+	tipShowAndFade: PropTypes.func.isRequired,
 	bind: PropTypes.func.isRequired,
-	tipShowAndFade: PropTypes.func.isRequired
+	tipShowAndFade: PropTypes.func.isRequired,
+	bindTelResult: PropTypes.object.isRequired,
+	bindCodeResult: PropTypes.object.isRequired,
 }
 
 

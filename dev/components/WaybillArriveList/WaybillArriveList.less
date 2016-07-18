@@ -2,7 +2,6 @@
 @import '../../style/theme.less';
 
 .waybillList-wrapper{
-	.px2rem(padding-top, 80px);
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -10,6 +9,7 @@
 }
 .waybillList-listWrapper{
 	.px2rem(padding-top, 80px);
+	.px2rem(padding-bottom, 80px);
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -52,4 +52,19 @@
 .waybillList-none-btn:active{
 	background: @base-color;
 	color: #fff;
+}
+.waybillList-showCompleted{
+	color: @base-color;
+	.px2px(font-size,24px);
+	.px2rem(line-height,70px);
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	border-top: 1px solid @base-color;
+	background: #fff;
+	width: 100%;
+	z-index: 100;
+	box-shadow: 0px -1px 1px #d9d9d9;       
+
 }

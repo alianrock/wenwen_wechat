@@ -25,14 +25,11 @@ export function getQueryString(name){
 }
 
 //设置用户cookie
-export function setUserCookie(token,phone){
+export function setTokenCookie(token){
     setCookie(COOKIE_NAME_TOKEN,token,COOKIETIME);
-    setCookie(COOKIE_NAME_TEL,phone,COOKIETIME);
 }
 //获取用户信息
-export function getUserCookie(){
-    return {
-        userToken : getCookie(COOKIE_NAME_TOKEN),
-        userTel:getCookie(COOKIE_NAME_TEL)
-    }
+export function getTokenCookie(){
+    return getCookie(COOKIE_NAME_TOKEN)
+    
 }

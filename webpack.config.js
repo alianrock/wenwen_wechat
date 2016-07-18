@@ -43,10 +43,7 @@ module.exports = {
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoErrorsPlugin(),
-		new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js"),
-		new webpack.DefinePlugin({
-		    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-		})
+		new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
 	],
 	module: {
 		loaders: [{
@@ -54,13 +51,15 @@ module.exports = {
 			loader: 'babel',
 			exclude: /node_modules/,
 			query:{
-				presets: ['es2015', 'react']//新版的babel将原来的一些模块拆分开来，通过插件的形式来引用
+				presets: ['es2015', 'react'],//新版的babel将原来的一些模块拆分开来，通过插件的形式来引用
+				plugins: ["transform-object-assign"]
 			},
+			
 			include: __dirname
 		},
 		{
 			test: /\.(less|css)$/,
-			loader: 'style!css?minimize&localIdentName=[name]_[local]_[hash:base64:5]!autoprefixer!less-loader',
+			loader: 'style!css?minimize&localIdentName=[name]_[local]_[hash:base64:5]!autoprefixer?browsers=last 6 version!less-loader',
 			include:__dirname
 		},{ 
 		    test: /\.(gif|jpg|png)\??.*$/,

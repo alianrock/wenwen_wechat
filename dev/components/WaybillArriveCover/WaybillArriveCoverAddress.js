@@ -5,42 +5,77 @@ export default class WaybillArriveCoverAddress extends Component {
 	constructor(props,context){
 		super(props,context);
 		this.state = {
-			selectAddrId:0,
+			selectAddr:null,
 			showAddAddrInput: false
 		};
 	}
 	componentWillReceiveProps(nextProps){
-		if(nextProps.show && !this.state.addressList){
-			this.getAddressList();
+		if(nextProps.show && !this.props.show){
+			this.props.getAddrList(this.props.user.token);
+			this.state = {
+				selectAddr:null,
+				showAddAddrInput: false
+			};
 		} 
 	}
-	getAddressList(){
-		this.props.getAddressList();
-	}
-	//选择地址
-	selectAddr(id){
-		this.setState({
-			selectAddrId:id
-		});
-	}
+	
 	//添加地址
 	handleAddAddr(){
 		this.setState({
-			showAddAddrInput:true 
+			selectAddr:null,
+			showAddAddrInput:true
 		});
 	}
 	//提交信息
 	hanldeConfirm(e){
-		const newAddr = this.refs.newAddr.value.tirm();
+		let newAddr = this.state.showAddAddrInput ? this.refs.newAddr.value.trim():'';
+		const {data,chooseWay,tipShowAndFade,user} = this.props;
 		//如果没有选择列表中的地址也没有填写新地址，那么提示没填写地址
-		// if(){}
-		this.props.changeWay();
+		let changeData = {
+			dataId:data.dataId,
+			dispatchingWay:chooseWay
+		}
+
+		if(this.state.showAddAddrInput && newAddr){
+			changeData.address = newAddr;
+			this.props.changeDiliverWay(user.token,changeData);
+		}else if(!this.state.showAddAddrInput && this.state.selectAddr){
+			changeData.address = this.state.selectAddr.addressId;
+			changeData.name = this.state.selectAddr.name;
+			changeData.phone = this.state.selectAddr.phone;
+			this.props.changeDiliverWay(user.token,changeData);
+		}else if((this.state.showAddAddrInput && !newAddr) || !this.state.selectAddr){
+			tipShowAndFade('请选择或者填写您的配送地址哦！')
+		}
+	}
+	//选择地址
+	handleSelect(addr){
+		if(this.state.selectAddr && addr.addressId == this.state.selectAddr.addressId) {
+			this.setState({
+				selectAddr:null
+			})
+		}else{
+			this.setState({
+				selectAddr:addr
+			})
+		}
 	}
 	renderAddrList(){
-		this.addressList.map((addr) =>{
-			//如果地址id和选中的匹配，则设置那个class
-			if(addr.id == this.state.selectAddrId){}
+		let addrListCom = [];
+		const selectAddr = this.state.selectAddr;
+		this.props.addrList.map((addr,index) =>{
+			addrListCom.push(<li onClick = { () => this.handleSelect(addr)} key = {index} className = {(selectAddr && addr.addressId == selectAddr.addressId)?'item item_select':'item'}>
+					<div className = 'item-con'>
+						<p className = 'item-con-top'>
+							<span className = 'name'>{addr.name||''}</span>
+							<span className = 'tel'>{addr.phone||''}</span>
+						</p>
+						<p className = 'item-con-btm'>{addr.pcdName + addr.detailAddress}</p>
+					</div>	
+					<div className = 'item-check icon icon-check'></div>
+				</li>);
 		});
+		return addrListCom;
 	}
 	render(){
 		const addressClass = classNames({
@@ -50,50 +85,11 @@ export default class WaybillArriveCoverAddress extends Component {
 
 		return(<div className = {addressClass}>
 			<ul className = 'list'>
-				<li className = 'item'>
-					<div className = 'item-con'>
-						<p className = 'item-con-top'>
-							<span className = 'name'>王小二</span>
-							<span className = 'tel'>13424424234</span>
-						</p>
-						<p className = 'item-con-btm'>浙江省杭州市滨江区江南大道300号xx小区11幢611</p>
-					</div>	
-					<div className = 'item-check icon icon-check'></div>
-				</li>
-				<li className = 'item item_select'>
-					<div className = 'item-con'>
-						<p className = 'item-con-top'>
-							<span className = 'name'>王小二</span>
-							<span className = 'tel'>13424424234</span>
-						</p>
-						<p className = 'item-con-btm'>浙江省杭州市滨江区江南大道300号xx小区11幢611</p>
-					</div>	
-					<div className = 'item-check icon icon-check'></div>
-				</li>
-				<li className = 'item'>
-					<div className = 'item-con'>
-						<p className = 'item-con-top'>
-							<span className = 'name'>王小二</span>
-							<span className = 'tel'>13424424234</span>
-						</p>
-						<p className = 'item-con-btm'>浙江省杭州市滨江区江南大道300号xx小区11幢611</p>
-					</div>	
-					<div className = 'item-check icon icon-check'></div>
-				</li>
-				<li className = 'item item_select'>
-					<div className = 'item-con'>
-						<p className = 'item-con-top'>
-							<span className = 'name'>王小二</span>
-							<span className = 'tel'>13424424234</span>
-						</p>
-						<p className = 'item-con-btm'>浙江省杭州市滨江区江南大道300号xx小区11幢611</p>
-					</div>	
-					<div className = 'item-check icon icon-check'></div>
-				</li>
+			{this.renderAddrList()}
 			</ul>
 			{
 				!this.state.showAddAddrInput ? 
-				(<div className = 'addbtn'><span className = 'addbtn-icon icon icon-plus'></span>添加其他地址</div>)
+				(<div className = 'addbtn' onClick = {this.handleAddAddr.bind(this)}><span className = 'addbtn-icon icon icon-plus'></span>添加其他地址</div>)
 				 : 
 				(<div className = 'addressInputWrapper'>
 					<span className = 'addressInputWrapper-icon icon icon-pencil'></span>
@@ -103,4 +99,15 @@ export default class WaybillArriveCoverAddress extends Component {
 			<div className = 'waybillArriveCover-confirm' onClick = {this.hanldeConfirm.bind(this)}>确定</div>
 		</div>);
 	}
+}
+
+WaybillArriveCoverAddress.propTypes = {
+	getAddrList:PropTypes.func.isRequired,
+	tipShowAndFade:PropTypes.func.isRequired,
+	changeDiliverWay:PropTypes.func.isRequired,
+	show:PropTypes.bool.isRequired,
+	user:PropTypes.object.isRequired,
+	addrList:PropTypes.array.isRequired,
+	data:PropTypes.object.isRequired,
+	chooseWay:PropTypes.string.isRequired
 }

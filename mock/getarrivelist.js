@@ -4,32 +4,12 @@ var Mock = require('mockjs');
 
 
 router.get('/',function (req, res, next){
-	res.json({
-		respCode:'0',
-		respMsg:'成功',
-		dataList:[
-		{
-			dataId:1234,
-			waybillStatus:0,
-			taskId:1234124,
-			taskStatus:0,
-			pickupType:0,
-			dispatchingWay:0,
-			dispatchingWay:'顺丰',
-			waybillNo:34143143143,
-			storeName:'问问门店',
-			areaNum:112345,
-			ownerName:'',
-			ownerPhone:'',
-			senderName:'',
-			senderPhone:'',
-			senderAddress:'',
-			receiverName:'',
-			receiverPhone:'',
-			receiverAddress:''
-		}
-		]
 
-	});
+	if(req.query.isCompleted == '1'){
+		res.json({"respCode":"0","respMsg":"操作成功","dataList":[{"dataId":"24cf63fc022540bcaa81019bf17c5366","waybillStatus":1,"taskId":"","taskStatus":0,"storeType":"0","storeName":"成蹊苑问问店","expressCompany":"顺风","waybillNo":"6950192301086","areaNum":"05609","inTime":1468573491942,"outTime":0,"appointTime":0,"pickupType":"1","dispatchingWay":"3","ownerName":"","ownerPhone":"","appraiseMsg":"","appraiseLevel":"","senderAddress":"","senderName":"","senderPhone":"","receiverAddress":"","receiverName":"","receiverPhone":"18868824033"},{"dataId":"bf386401e5e24c2dadbae430951a1ab7","waybillStatus":1,"taskId":"","taskStatus":0,"storeType":"0","storeName":"成蹊苑问问店","expressCompany":"顺风","waybillNo":"9787568003964","areaNum":"01101","inTime":1468568838279,"outTime":0,"appointTime":0,"pickupType":"0","dispatchingWay":"0","ownerName":"","ownerPhone":"","appraiseMsg":"","appraiseLevel":"","senderAddress":"","senderName":"","senderPhone":"","receiverAddress":"","receiverName":"","receiverPhone":"18868824033"},{"dataId":"24cf63fc022540bcaa81019bf17c5366","waybillStatus":1,"taskId":"","taskStatus":0,"storeType":"0","storeName":"成蹊苑问问店","expressCompany":"顺风","waybillNo":"6950192301086","areaNum":"05609","inTime":1468573491942,"outTime":0,"appointTime":0,"pickupType":"1","dispatchingWay":"3","ownerName":"","ownerPhone":"","appraiseMsg":"","appraiseLevel":"","senderAddress":"","senderName":"","senderPhone":"","receiverAddress":"","receiverName":"","receiverPhone":"18868824033"},{"dataId":"bf386401e5e24c2dadbae430951a1ab7","waybillStatus":1,"taskId":"","taskStatus":0,"storeType":"0","storeName":"成蹊苑问问店","expressCompany":"顺风","waybillNo":"9787568003964","areaNum":"01101","inTime":1468568838279,"outTime":0,"appointTime":0,"pickupType":"0","dispatchingWay":"0","ownerName":"","ownerPhone":"","appraiseMsg":"","appraiseLevel":"","senderAddress":"","senderName":"","senderPhone":"","receiverAddress":"","receiverName":"","receiverPhone":"18868824033"}]});
+	}else{
+		res.json({"respCode":"0","respMsg":"操作成功","dataList":[{"dataId":"24cf63fc022540bcaa81019bf17c5366","waybillStatus":1,"taskId":"","taskStatus":0,"storeType":"0","storeName":"成蹊苑问问店","expressCompany":"顺风","waybillNo":"6950192301086","areaNum":"05609","inTime":1468573491942,"outTime":0,"appointTime":0,"pickupType":"1","dispatchingWay":"3","ownerName":"","ownerPhone":"","appraiseMsg":"","appraiseLevel":"","senderAddress":"","senderName":"","senderPhone":"","receiverAddress":"","receiverName":"","receiverPhone":"18868824033"},{"dataId":"bf386401e5e24c2dadbae430951a1ab7","waybillStatus":1,"taskId":"","taskStatus":0,"storeType":"0","storeName":"成蹊苑问问店","expressCompany":"顺风","waybillNo":"9787568003964","areaNum":"01101","inTime":1468568838279,"outTime":0,"appointTime":0,"pickupType":"0","dispatchingWay":"0","ownerName":"","ownerPhone":"","appraiseMsg":"","appraiseLevel":"","senderAddress":"","senderName":"","senderPhone":"","receiverAddress":"","receiverName":"","receiverPhone":"18868824033"}]});
+	}
+	
 });
 module.exports = router;
