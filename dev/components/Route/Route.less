@@ -23,6 +23,18 @@
 .route-header-logo_EMS{
 	background-image: url(./images/ems.png);
 }
+.route-header-logo_FASt{
+	background-image: url(./images/fast.png);
+}
+.route-header-logo_GTO{
+	background-image: url(./images/gto.png);
+}
+.route-header-logo_QFKD{
+	background-image: url(./images/qfkd.png);
+}
+.route-header-logo_HTKY{
+	background-image: url(./images/htky.png);
+}
 
 
 
@@ -35,7 +47,6 @@
 	.px2rem(height, 120px);
 	.px2rem(padding-left, 30px);
 	display: flex;
-	flex-direction:row;
 	align-items: center;
 	border-top:1px solid #dddddd;
 	border-bottom:1px solid #dddddd;
@@ -53,6 +64,13 @@
 .route-header-text{
 	color: #282828;
 	.px2px(font-size,30px);	
+	overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1 1 auto;
+    white-space: nowrap;
+    display: inline-block;
+	.px2rem(width,500px);
+	.px2rem(padding-right,30px);	
 }
 
 .route-header-line{

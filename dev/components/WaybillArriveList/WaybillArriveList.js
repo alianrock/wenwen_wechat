@@ -22,16 +22,10 @@ export default class WaybillArriveList extends Component {
 		//判断show字段是否存在或者为show，显示
 		//如果itemsleng为0 显示没有记录组件
 
-		if(!items || items.length == 0){
-			listCom.push(
-				<div key = 'none' className = 'waybillList-none'>
-					<img className = 'waybillList-none-icon' src={icon} alt='没有记录'/>
-					<p className = 'waybillList-none-tip'>你暂时没有{this.state.complete?'已取':'待取'}的快件哦</p>
-					<div className = 'waybillList-none-btn'>查看已取快件</div>
-				</div>
-			);
-		}else{
-			listCom.push(<header key = 'header' className = 'waybillList-header'>{this.state.complete?'已取':'待取'}快件</header>);
+		if(!!items && items.length > 0){
+			listCom.push(<header key = 'header' className = 'waybillList-header'>
+				{this.state.complete?<span>已取快件<em>（最近七天）</em></span>:'待取快件'}
+				</header>);
 			items.map((item,index)=>{
 				if(item.hide) return;
 				listCom.push(
@@ -43,6 +37,22 @@ export default class WaybillArriveList extends Component {
 						getLog = {waybillActions.getLog}/>
 				);
 			});
+		}
+
+		if(listCom.length <= 1){
+			listCom.push(
+				<div key = 'none' className = 'waybillList-none'>
+					<img className = 'waybillList-none-icon' src={icon} alt='没有记录'/>
+					<p className = 'waybillList-none-tip'>
+					{
+						(items && items.length == 0)?
+							'你暂时没有'+(this.state.complete?'已取':'待取')+'的快件哦'
+							:
+							'找不到记录哦'
+					}
+					</p>
+				</div>
+			);
 		}
 		return listCom;
 	}
@@ -93,7 +103,6 @@ export default class WaybillArriveList extends Component {
 WaybillArriveList.proptypes = {
 	getCompleteList:PropTypes.func.isRequired,
 	getNoCompleteList:PropTypes.func.isRequired,
-
 	tipShowAndFade:PropTypes.func.isRequired,
 	user:PropTypes.object.isRequired,
 	waybillArrive:PropTypes.object.isRequired,

@@ -48,8 +48,8 @@ export const SERVER_ERR_TIP = '服务器开小差了哦，请稍后再试！';
 //code_map
 export const CODE_MAP = {
 	'-1':{msg:'非微信操作',pass:false},
-	'-2':{msg:'页面授权码code失效，请重新打开',pass:false},
-	'-3':{msg:'页面授权无响应，请重新打开',pass:false},
+	'-2':{msg:'微信服务器错误，请重新打开页面哦',pass:false},//code失效
+	'-3':{msg:'微信服务器错误，请重新打开页面哦',pass:false},//微信服务器无响应
 	'0':{msg:'操作成功',pass:true},
 	'1':{msg:'用户不存在',pass:true},
 	'2':{msg:'未绑定手机',pass:false},
@@ -79,12 +79,33 @@ export const COOKIE_NAME_TEL = 'JIPEI_USER_TEL';
 
 
 //收件项目状态map
-export function STATE_MAP(state,time){
+export function STATE_MAP(data){
+	const {taskStatus,dispatchingWay,time}  = data;
+	//暂时没有夜间配送的按钮，time变量暂时留着
+	let state = dispatchingWay;
+	if(taskStatus == '3') state = '5';//状态为即将为您配件
 	var map = {'0':'请到店取件',
 	'1':'小伙伴代拿快件',
 	'2':'隔天取件',
 	'3':'即将为你派件',
-	'4':'正在为您派件',
-	'5':'将于晚间'+time+'为你配送'}
+	'4':'将于晚间'+time+'为你配送',
+	'5':'正在为您派件'}
 	return map[state];
+}
+
+//快件状态
+export const WAYBILL_STATUS = {
+	DELAY:4//滞留件
+};
+
+//快件任务状态(只有更改了配送方式才会产生)
+export const WAYBILL_TASK_STATUS = {
+	APPLY:0,//已申请
+	HAD_HANDLE:1,//已受理
+	HAD_ORDER:2,//已接单
+	DONGING: 3,//任务进行中
+	DONE:4,//任务完成
+	REJUCT:-1,//拒受理
+	USER_CANCEL:-2,//用户取消
+	PROBLEM_TASK:-3//问题任务
 }

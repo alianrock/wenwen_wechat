@@ -119,7 +119,7 @@ function addrList(state,action){
 			return Object.assign({},state,{
 				isRequesting: false,
 				cover:Object.assign({},state.cover,{
-					addrList:action.result.dataList.filter(item => item.type === '1')
+					addrList:action.result.dataList.filter(item => item.type === '0')
 				})
 			});
 		default:

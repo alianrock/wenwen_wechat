@@ -8,7 +8,7 @@ router.get('/',function (req, res, next){
 		respCode:'0',
 		respMsg:'成功',
 		token:'',
-		phone:''
+		phone:'123233333'
 	});
 });
 module.exports = router;

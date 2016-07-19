@@ -44,7 +44,9 @@ class RouteInquireCon extends Component {
 		}
 		if(!user.token){
 			bindComponent = (
-				<Bind  bindTelResult = {bind.bindTel} 
+				<Bind
+					tipType = 'routeinquire'
+					bindTelResult = {bind.bindTel} 
 					bindCodeResult = {bind.bindCode} 
 					bind = {bindActions.bind} 
 					getCode = {bindActions.getCode} 

@@ -143,12 +143,14 @@ export function changeDiliverWay(token,data,callback){
 				name:data.name || null,
 				phone:data.phone || null,
 				address: data.address || null,
-				appointTime: data.appointTime || null
+				appointTime: data.appointTime || null,
+				remark:data.remark || null
 			}
 		}).then(res =>{
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveChangeDiliverWay(data));
 				dispatch(hideCover());
+				tipShowAndFade('修改成功');
 			}else{
 				dispatch(changeDiliverWayFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));

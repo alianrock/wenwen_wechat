@@ -2,7 +2,7 @@ import React, {Component, PropTypes } from 'react';
 import style from './WaybillArriveItem.less';
 import LoadingSmall from '../Loading/LoadingSmall';
 import classNames from 'classNames';
-import {STATE_MAP} from '../../config/';
+import {STATE_MAP,WAYBILL_TASK_STATUS,WAYBILL_STATUS} from '../../config/';
 export default class WaybillArriveItem extends Component {
 	constructor(props,context){
 		super(props,context);
@@ -17,6 +17,7 @@ export default class WaybillArriveItem extends Component {
 	handleTapBtn(e){
 		e.preventDefault();
 		e.stopPropagation();
+		console.log(this.props.data);
 		this.props.showCover(this.props.data);
 		this.setState({
 			showLog:false
@@ -32,6 +33,18 @@ export default class WaybillArriveItem extends Component {
 		
 	}
 
+	getTime(time){
+		let date = new Date(time),
+			year = date.getFullYear(),
+			month = date.getMonth()+1 < 10 ? '0'+date.getMonth()+1:date.getMonth()+1,
+			day = date.getDate(),
+			hour = date.getHours(),
+			minutes = date.getMinutes(),
+			seconds = date.getSeconds();
+
+		return  ''+year+month+day+ ' ' + hour+':'+minutes+':'+seconds;
+	}
+
 	renderLog(){
 		const {log} = this.props.data;
 		let logCom = [];
@@ -43,7 +56,7 @@ export default class WaybillArriveItem extends Component {
 					<li key = {index} className = 'item'>
 						<span className = 'item-dot'></span>
 						{item.desc}
-						<span className = 'item-time'>{item.time}</span>
+						<span className = 'item-time'>{this.getTime(item.time)}</span>
 					</li>);		
 			});
 		}
@@ -66,9 +79,26 @@ export default class WaybillArriveItem extends Component {
 		
 	}
 
-	
+	renderBtn(data){
+		
+		//taskStatus不为1234，则配送订单已被受理，没办法更改配送方式
+		const TaskHadHandle = (data.taskStatus != WAYBILL_TASK_STATUS.HAD_HANDLE && 
+			data.taskStatus != WAYBILL_TASK_STATUS.HAD_ORDER && 
+			data.taskStatus != WAYBILL_TASK_STATUS.DONGING && 
+			data.taskStatus != WAYBILL_TASK_STATUS.DONE);
+
+		const WaybillNoDelay = (data.waybillStatus != WAYBILL_TASK_STATUS.DELAY);
+
+		if(data.pickupType == 0 && TaskHadHandle && WaybillNoDelay){
+			return <div className = 'waybillItem-middle-btn'  onClick = {this.handleTapBtn.bind(this)} >没空拿?</div>;
+		
+		}else if(data.pickupType == 1 && TaskHadHandle && WaybillNoDelay){
+			return <div className = 'waybillItem-middle-btn'  onClick = {this.handleTapBtn.bind(this)} >不在家?</div>
+		}
+	}
 
 	renderNoCompleteItem(data){
+
 		return (
 			<div>
 				<header className = 'waybillItem-header'>
@@ -80,10 +110,10 @@ export default class WaybillArriveItem extends Component {
 				</header>
 				<div className = 'waybillItem-mid'>
 					<div className ={'waybillItem-middle-icon waybillItem-middle-icon_'+data.dispatchingWay}></div>
-					<div className = 'waybillItem-middle-state'>{STATE_MAP(data.dispatchingWay)}</div>
+					<div className = 'waybillItem-middle-state'>{STATE_MAP(data)}</div>
 
 					{
-						(data.pickupType == 0 && data.dispatchingWay != 0)?'':<div className = 'waybillItem-middle-btn'  onClick = {this.handleTapBtn.bind(this)} >{data.pickupType == 0 ? '没空拿？':'不在家？'}</div>
+						this.renderBtn(data)
 					}
 				</div>
 				<div className = 'waybillItem-btm'>
@@ -122,12 +152,13 @@ export default class WaybillArriveItem extends Component {
 	}
 
 	render(){
+		const {data}  = this.props;
 		const itemClass = classNames({
 			'waybillItem':true,
 			'waybillItem_complete':this.props.complete,
-			'waybillItem_showLog':this.state.showLog
+			'waybillItem_showLog':this.state.showLog,
+			'waybillItem_delay':false,//(data.waybillStatus == WAYBILL_STATUS.DELAY)//滞留件
 		});
-		const {data}  = this.props;
 		return (
 			<section className = {itemClass} onClick = {this.handleTapItem.bind(this)}>
 				{this.props.complete?this.renderCompleteItem(data):this.renderNoCompleteItem(data)}

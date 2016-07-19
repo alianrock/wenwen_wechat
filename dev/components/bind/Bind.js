@@ -60,19 +60,30 @@ export default class Bind extends Component {
 			this.props.handleBind();
 		}
 		const data = {
-			verificationCode : code,
+			verificationCode: code,
 			phone: tel,
 			token: this.props.rebind?this.props.user.token:null 
 		}
 		this.props.bind(data,this.props.rebind,this.props.bindCallBack);
 	}
-
 	render() {
+
 		return (
 			<div className = 'bindwarp'>	
 				<p className= 'bind-tip'>
 					<i className='bind-tip-icon'></i>
-					<span className = 'bind-tip-con'>输入单号太麻烦？<em>输入手机号码</em>，即可快速查询哦！</span>
+					{
+						this.props.tipType? 
+							(
+								<span className = 'bind-tip-con'>输入单号太麻烦？<em>输入手机号码</em>，即可快速查询哦！</span>
+								):
+							(
+								<span className = 'bind-tip-con'>设置关联手机号码，可快速查询关联手机相关快件，享受<em>到件通知、在线寄件</em>等服务
+								</span>
+							)
+							
+					}
+					
 				</p>
 				<form className = 'bind-form'>
 					<div className='bind-inputwrapper'>
