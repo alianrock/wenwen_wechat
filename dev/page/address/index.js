@@ -23,3 +23,9 @@ render(
 	document.getElementById('j_wrap')
 );
 
+//开发环境使用hotrelaod
+if(!process.env.NODE_ENV){
+	if (module.hot) {
+	  module.hot.accept();
+	}
+}

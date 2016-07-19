@@ -16,30 +16,53 @@ export const ROUTE_EXPRESS_COMPONEY = [
 //我的收件-改变取件方式-晚间配送时间点
 export const NIGHT_DELIVER_OPTION = [{value:'晚间：17：00-18：00',label: '晚间：17：00-18：00'},{value:'晚间：18：00-19：00',label: '晚间：19：00-19：00'},{value:'晚间：19：00-20：00',label: '晚间：19：00-20：00'}];
 
+// export const DEV = '1234';
+// export const PRPOCESS = process.env.NODE_ENV;
 
-//接口API
-export const API = {
-	//获取User
-	getUser: '/mock/gettoken',
-	//获取路由信息
-	getRoute: '/mock/getroute',
-	//获取验证码
-	getCode:'/mock/getcode',
-	//获取我的收件列表
-	getArriveList:'/mock/getarrivelist',
-	//获取快件记录的log
-	getLog:'/mock/getlog',
-	//改变取件方式
-	changeWay:'/mock/changeway',
-	//获取地址列表
-	getAddrList:'/mock/getaddrlist',
-	//删除地址
-	delAddr:'/mock/deladdr',
-	//增加修改地址
-	editAddr:'/mock/editaddr',
-	//获取区域信息
-	getArea:'/mock/getarea'
-};
+//测试环境API||正式环境
+export const API = process.env.NODE_ENV?{
+		//获取User
+		getUser: 'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//获取路由信息
+		getRoute: 'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//获取验证码
+		getCode:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//获取我的收件列表
+		getArriveList:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//获取快件记录的log
+		getLog:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//改变取件方式
+		changeWay:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//获取地址列表
+		getAddrList:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//删除地址
+		delAddr:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//增加修改地址
+		editAddr:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//获取区域信息
+		getArea:'http://wx.ichuangwen.com/jpex/jsp/control.jsp'
+	}:{
+		//获取User
+		getUser: '/mock/gettoken',
+		//获取路由信息
+		getRoute: '/mock/getroute',
+		//获取验证码
+		getCode:'/mock/getcode',
+		//获取我的收件列表
+		getArriveList:'/mock/getarrivelist',
+		//获取快件记录的log
+		getLog:'/mock/getlog',
+		//改变取件方式
+		changeWay:'/mock/changeway',
+		//获取地址列表
+		getAddrList:'/mock/getaddrlist',
+		//删除地址
+		delAddr:'/mock/deladdr',
+		//增加修改地址
+		editAddr:'/mock/editaddr',
+		//获取区域信息
+		getArea:'/mock/getarea'
+	};
 
 //服务器错误提示
 export const SERVER_ERR_TIP = '服务器开小差了哦，请稍后再试！';

@@ -22,7 +22,7 @@ export default class WaybillArriveList extends Component {
 		//判断show字段是否存在或者为show，显示
 		//如果itemsleng为0 显示没有记录组件
 
-		if(!!items && items.length > 0){
+		if(items.length > 0){
 			listCom.push(<header key = 'header' className = 'waybillList-header'>
 				{this.state.complete?<span>已取快件<em>（最近七天）</em></span>:'待取快件'}
 				</header>);

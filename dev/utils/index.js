@@ -33,3 +33,16 @@ export function getTokenCookie(){
     return getCookie(COOKIE_NAME_TOKEN)
     
 }
+
+//获取时间
+export function getTime(time){
+    let date = new Date(time),
+        year = date.getFullYear(),
+        month = date.getMonth()+1 < 10 ? '0'+date.getMonth()+1:date.getMonth()+1,
+        day = date.getDate(),
+        hour = date.getHours(),
+        minutes = date.getMinutes(),
+        seconds = date.getSeconds();
+
+    return  ''+year+'-'+month+'-'+day+ ' ' + hour+':'+minutes+':'+seconds;
+}

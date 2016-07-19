@@ -43,7 +43,12 @@ module.exports = {
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoErrorsPlugin(),
-		new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
+		new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js"),
+		new webpack.DefinePlugin({
+	      'process.env': {
+	          NODE_ENV: JSON.stringify(process.env.NODE_ENV||false),
+	      }
+	    })
 	],
 	module: {
 		loaders: [{

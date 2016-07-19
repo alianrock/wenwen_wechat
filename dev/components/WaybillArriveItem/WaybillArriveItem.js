@@ -2,6 +2,8 @@ import React, {Component, PropTypes } from 'react';
 import style from './WaybillArriveItem.less';
 import LoadingSmall from '../Loading/LoadingSmall';
 import classNames from 'classNames';
+import {getTime} from '../../utils';
+
 import {STATE_MAP,WAYBILL_TASK_STATUS,WAYBILL_STATUS} from '../../config/';
 export default class WaybillArriveItem extends Component {
 	constructor(props,context){
@@ -17,7 +19,6 @@ export default class WaybillArriveItem extends Component {
 	handleTapBtn(e){
 		e.preventDefault();
 		e.stopPropagation();
-		console.log(this.props.data);
 		this.props.showCover(this.props.data);
 		this.setState({
 			showLog:false
@@ -33,17 +34,7 @@ export default class WaybillArriveItem extends Component {
 		
 	}
 
-	getTime(time){
-		let date = new Date(time),
-			year = date.getFullYear(),
-			month = date.getMonth()+1 < 10 ? '0'+date.getMonth()+1:date.getMonth()+1,
-			day = date.getDate(),
-			hour = date.getHours(),
-			minutes = date.getMinutes(),
-			seconds = date.getSeconds();
-
-		return  ''+year+month+day+ ' ' + hour+':'+minutes+':'+seconds;
-	}
+	
 
 	renderLog(){
 		const {log} = this.props.data;
@@ -56,8 +47,8 @@ export default class WaybillArriveItem extends Component {
 					<li key = {index} className = 'item'>
 						<span className = 'item-dot'></span>
 						{item.desc}
-						<span className = 'item-time'>{this.getTime(item.time)}</span>
-					</li>);		
+						<span className = 'item-time'>{getTime(item.time)}</span>
+					</li>);
 			});
 		}
 

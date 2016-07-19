@@ -8,7 +8,7 @@ import {
 
 export function waybillArrive(state = {
 	isRequesting:false,
-	list:null,
+	list:[],
 	cover:{
 		isShow:false,
 		data:{},

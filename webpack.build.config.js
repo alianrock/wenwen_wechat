@@ -2,7 +2,6 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-
 module.exports = {
 	// devtool:'cheap-module-eval-source-map',
 	entry:{
@@ -51,12 +50,10 @@ module.exports = {
 	    }),
 	    new webpack.DefinePlugin({
 	      'process.env': {
-	          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+	          NODE_ENV: JSON.stringify(process.env.NODE_ENV)
 	      },
+	      _dev_:JSON.stringify(process.env.DEV||false)
 	    }),
-		new webpack.DefinePlugin({
-		    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-		}),
 		new ExtractTextPlugin("style/[name].[contenthash:8].css"),
 		new HtmlWebpackPlugin({
 			filename:'html/bind.html',

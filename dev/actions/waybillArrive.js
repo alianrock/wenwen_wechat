@@ -150,7 +150,7 @@ export function changeDiliverWay(token,data,callback){
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveChangeDiliverWay(data));
 				dispatch(hideCover());
-				tipShowAndFade('修改成功');
+				dispatch(tipShowAndFade('修改成功'));
 			}else{
 				dispatch(changeDiliverWayFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
