@@ -31,7 +31,7 @@ export default class AddressList extends Component {
 								<div className = 'address-item-con-top'>
 									<span className = 'name'>
 										{
-											item.isDefault?<span className = 'default-tag'>默认</span>:''
+											(item.isDefault == '1')?<span className = 'default-tag'>默认</span>:''
 										}
 										{item.name}
 									</span>

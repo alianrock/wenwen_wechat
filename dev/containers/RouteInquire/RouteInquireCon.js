@@ -22,7 +22,8 @@ class RouteInquireCon extends Component {
 	}
 	
 	componentWillMount(){
-		this.props.userActions.getUser();
+		const {user} = this.props;
+		if(!user.hasGetToken) this.props.userActions.getUser();
 	}
 
 	handleBineCallBack(){
@@ -35,7 +36,7 @@ class RouteInquireCon extends Component {
 
 	render() {
 		const {	user,route,tip,bind,
-				routeActions,tipActions,bindActions} = this.props;
+				routeActions,tipActions,bindActions,userActions} = this.props;
 		let loadingComponent = '';
 		let bindComponent;
 

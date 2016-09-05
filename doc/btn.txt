@@ -1,0 +1,9 @@
+我的收件：
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx491e5270ff00f0c4&redirect_uri=http%3A%2F%2Fwx.ichuangwen.com%2Fm_jp%2Fhtml%2FwaybillArrive.html&response_type=code&scope=snsapi_base&state=wenwen#wechat_redirect
+地址簿：
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx491e5270ff00f0c4&redirect_uri=http%3A%2F%2Fwx.ichuangwen.com%2Fm_jp%2Fhtml%2Faddress.html&response_type=code&scope=snsapi_base&state=wenwen#wechat_redirect
+路由查询：
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx491e5270ff00f0c4&redirect_uri=http%3A%2F%2Fwx.ichuangwen.com%2Fm_jp%2Fhtml%2FrouteInquire.html&response_type=code&scope=snsapi_base&state=wenwen#wechat_redirect
+
+绑定解绑：
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx491e5270ff00f0c4&redirect_uri=http%3A%2F%2Fwx.ichuangwen.com%2Fm_jp%2Fhtml%2Fbind.html&response_type=code&scope=snsapi_base&state=wenwen#wechat_redirect

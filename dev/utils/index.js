@@ -38,11 +38,16 @@ export function getTokenCookie(){
 export function getTime(time){
     let date = new Date(time),
         year = date.getFullYear(),
-        month = date.getMonth()+1 < 10 ? '0'+date.getMonth()+1:date.getMonth()+1,
-        day = date.getDate(),
+        month = date.getMonth()+1 < 10 ? '0' + (date.getMonth()+1) : date.getMonth() + 1,
+        day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate(),
         hour = date.getHours(),
         minutes = date.getMinutes(),
         seconds = date.getSeconds();
 
     return  ''+year+'-'+month+'-'+day+ ' ' + hour+':'+minutes+':'+seconds;
+}
+
+//错误判断
+export function errorCodeJudge(){
+    
 }

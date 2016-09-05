@@ -18,6 +18,7 @@ export default class AddressSelect extends Component {
 			streetCode:'',
 			showList:'province'
 		}
+		this.nextShowList = 'province';
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -31,7 +32,7 @@ export default class AddressSelect extends Component {
 	handleTapItem(type){
 		const {user,getArea,tipShowAndFade} = this.props;
 		if(type == this.state.showList) return;
-		let preType
+		let preType;
 		if(type == 'city'){
 			preType = 'province';
 		}else if(type == 'district'){
@@ -62,6 +63,8 @@ export default class AddressSelect extends Component {
 			nextType = 'street';
 			nextTypeName = '街道（镇）';
 		}
+		this.nextShowList = nextType;
+
 		this.setState({
 			[type]:name,
 			[nextType]:nextTypeName,
@@ -75,8 +78,8 @@ export default class AddressSelect extends Component {
 
 	renderItems(){
 		const list = this.props['data'+this.state.showList.replace(/(\w)/,function(v){return v.toUpperCase()})];
-	
-		if(this.props.areaIsRequesting){
+
+		if(this.props.areaIsRequesting && this.state.showList == this.nextShowList){
 			return <li key ='loading' className= 'item_loading'><LoadingSmall/></li>
 		}else{
 			let listCom = [];
@@ -88,13 +91,14 @@ export default class AddressSelect extends Component {
 					</span>
 				);
 			});
+			if(listCom.length == 0) listCom.push(<span key = 'none' className = 'item item_none'>暂无数据</span>);
 			return listCom;
 		}
 	}
 
-	hideSelect(){
+	hideSelect(e){
 		this.resetData();
-		this.props.hideAreaSelect();
+		this.props.hideAreaSelect(e);
 	}
 
 	resetData(){
@@ -112,7 +116,7 @@ export default class AddressSelect extends Component {
 		this.props.clearArea();
 	}
 
-	handleConfirm(){
+	handleConfirm(e){
 		const {provinceCode,cityCode,districtCode,streetCode,province,city,district,street} = this.state;
 		const {tipShowAndFade,dataDistrict,dataStreet} = this.props;
 		if(!provinceCode){
@@ -129,12 +133,16 @@ export default class AddressSelect extends Component {
 			return;
 		}
 
-		const pcdCode = provinceCode +' '+cityCode+ ' ' +districtCode + ' '+streetCode;
-		const pcdName = province + ' ' + city + ' ' + district + ' ' +street;
+		let pcdCode = provinceCode +' '+cityCode+ ' ' +districtCode;
+		let pcdName = province + ' ' + city + ' ' + district;
+		if(dataStreet.length > 0 ){
+			pcdCode += ' '+streetCode;
+			pcdName += ' ' +street;
+		}
 
 		this.props.changeArea(pcdCode,pcdName);
 		this.resetData();
-		this.props.hideAreaSelect();
+		this.props.hideAreaSelect(e);
 	}
 
 	render(){

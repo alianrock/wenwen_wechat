@@ -12,22 +12,34 @@ export default class AddressEdit extends Component {
 			pcdName:'',
 			pcdCode:'',
 			detailAddress:'',
-			isDefault:0,
+			isDefault:'0',
 			showAreaSelect:false
 		}
 			
 	}
 
+	componentDidMount(){
+		this.setAddressState(this.props.addressData);
+		// console.log(this.props.addressData);
+	}
+
 	componentWillReceiveProps(nextProps){
 		const {addressData} = nextProps;
-		if(addressData && !this.props.addressData) this.setState({
-			name: addressData.name,
-			phone: addressData.phone,
-			pcdName: addressData.pcdName,
-			pcdCode: addressData.pcdCode,
-			detailAddress:addressData.detailAddress,
-			isDefault: addressData.isDefault
-		});
+		this.setAddressState(addressData);
+	}
+
+
+	setAddressState(addressData){
+		if(addressData){
+			 this.setState({
+				name: addressData.name,
+				phone: addressData.phone,
+				pcdName: addressData.pcdName,
+				pcdCode: addressData.pcdCode,
+				detailAddress:addressData.detailAddress,
+				isDefault: addressData.isDefault
+			});
+		}
 	}
 
 	
@@ -40,13 +52,13 @@ export default class AddressEdit extends Component {
 	handleClear(key){
 		this.setState({
 			[key]:''
-		})
+		});
 	}
 
 	setDefault(){
 		this.setState({
-			isDefault:!!this.state.isDefault?0:1
-		})
+			isDefault:(this.state.isDefault == '1')?'0':'1'
+		});
 	}
 
 	handleDel(){
@@ -66,7 +78,7 @@ export default class AddressEdit extends Component {
 		} else if(!this.state.pcdName){
 			tipShowAndFade('请选择地址哦');
 			return;
-		}else if(!this.state.detailAddress){
+		} else if(!this.state.detailAddress){
 			tipShowAndFade('请填写详细地址哦');
 			return;
 		}
@@ -84,7 +96,8 @@ export default class AddressEdit extends Component {
 		});
 	}
 
-	hideAreaSelect(){
+	hideAreaSelect(e){
+		e.preventDefault();
 		this.setState({
 			showAreaSelect:false
 		});
@@ -98,7 +111,8 @@ export default class AddressEdit extends Component {
 	}
 
 	render(){
-		const {user,addressData,dataProvince,dataCity,dataDistrict,dataStreet,tipShowAndFade,getArea,selectArea,clearArea} = this.props;
+		const {user,addressData,dataProvince,dataCity,dataDistrict,dataStreet,tipShowAndFade,getArea,selectArea,clearArea,areaIsRequesting} = this.props;
+
 		return (
 			<div className = 'addressEdit-wrapper'>
 				<form className = 'addressEdit-form'>
@@ -129,7 +143,7 @@ export default class AddressEdit extends Component {
 						</div>
 						<div className = 'addressEdit-inputWraaper addressEdit-default'>
 							<span className = 'addressEdit-text'>设置为默认地址</span>
-							<div className = {(this.state.isDefault)?'addressEdit-toggle addressEdit-toggle_active':'addressEdit-toggle'} onClick = {this.setDefault.bind(this)}><span className = 'dot'></span></div>
+							<div className = {(this.state.isDefault=='1')?'addressEdit-toggle addressEdit-toggle_active':'addressEdit-toggle'} onClick = {this.setDefault.bind(this)}><span className = 'dot'></span></div>
 						</div>
 					</section>
 
@@ -152,6 +166,7 @@ export default class AddressEdit extends Component {
 					tipShowAndFade = {tipShowAndFade}
 					showAreaSelect = {this.state.showAreaSelect}
 					hideAreaSelect = {this.hideAreaSelect.bind(this)}
+					areaIsRequesting = {areaIsRequesting}
 					changeArea = {this.changeArea.bind(this)}
 					clearArea = {clearArea}/>
 			</div>

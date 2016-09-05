@@ -1,12 +1,12 @@
 import reqwest from 'reqwest';
-import {API,CODE_MAP,SERVER_ERR_TIP} from '../config';
-import {getQueryString,setTokenCookie,getTokenCookie} from '../utils';
+import {API,CODE_MAP,SERVER_ERR_TIP,COOKIE_NAME_TOKEN,USER_AGENT,CLINET} from '../config';
+import {getQueryString,setTokenCookie,getTokenCookie,setCookie} from '../utils';
 import {tipShow} from './tip';
 
 export const START_GET_USER = 'START_GET_USER';
 export const RECEIVE_USER = 'RECEIVE_USER';
 export const GET_USER_FAIL = 'GET_USER_FAIL';
-export const USER_NO_BIND = 'USER_NO_BIND';
+export const CLEAR_TOKEN = 'CLEAR_TOKEN';
 
 //开始获取token
 function startGetUser(){
@@ -49,15 +49,33 @@ function getUserFromLocal(dispatch,callback){
 
 
 //获取user
-export function getUser(callback){
+export function getUser(callback,refresh,respCode){
 	return (dispatch) => {
-
 		//从cookie获取user
-		if(getUserFromLocal(dispatch,callback)) return;
+		if(!CLINET == 'app' && !refresh && getUserFromLocal(dispatch,callback)) return;
 
-		//从服务器获取user
-		dispatch(getUserFromRemote(callback));
+        if(CLINET == 'app'){
+        	//等待获取token
+        	dispatch(startGetUser());
 
+        	//android获取token
+        	if(refresh && USER_AGENT == 'android'){
+        		window.jeepei.GET_APP_TOKEN(respCode);
+        	}else if(refresh){
+        		window.GET_APP_TOKEN(window.location.href,respCode);
+        	}
+        	
+        	if(!refresh){
+	            window.SENG_APP_TOKEN = function(token){
+	                getUserFromApp(token,dispatch,callback);
+	            }
+            }
+        }else{
+            //从本地获取user
+        	if(getUserFromLocal(dispatch,callback)) return;
+            //从服务器获取user
+		    dispatch(getUserFromRemote(callback));
+        }
 	}
 }
 
@@ -84,10 +102,8 @@ export function getUserFromRemote(callback){
 				}
 			}).then((res) => {
 				if(CODE_MAP[res.respCode].pass){
-					if(res.respCode !== '1'){
-						setTokenCookie(res.token);
-						dispatch(receiveUser(res));
-					}
+					setTokenCookie(res.token);
+					dispatch(receiveUser(res));
 					if(callback){
 						callback(res.token);
 					}
@@ -101,3 +117,21 @@ export function getUserFromRemote(callback){
 			});
 	}
 }
+
+//从客户端获取用户token
+function getUserFromApp(token,dispatch,callback){
+    setTokenCookie(token);
+	dispatch(receiveUser({token:token}));
+	if(callback){
+		callback(token);
+	}
+}
+
+export function clearToken(){
+	//清除cookie
+	setCookie(COOKIE_NAME_TOKEN,'',-100000000);
+	return {
+		type:'CLEAR_TOKEN'
+	}
+}
+

@@ -29,11 +29,11 @@ export default class WaybillArriveCoverHelp extends Component {
 				<from>
 					<div className = 'inputwrapper'>
 						<span className = 'icon icon-phone'></span>
-						<input ref='tel' className = 'input' type = 'text' placeholder = '请填写小伙伴的手机号码'/>
+						<input ref='tel' className = 'input' type = 'text' placeholder = '请填写小伙伴的手机号码(必填)'/>
 					</div>
 					<div className = 'inputwrapper'>
 						<span className = 'icon icon-pencil'></span>
-						<textarea ref='msg' className = 'textarea'  placeholder = '请填写留言信息'/>
+						<textarea ref='msg' className = 'textarea'  placeholder = '请填写留言信息(选填)'/>
 
 					</div>
 				</from>

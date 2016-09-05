@@ -12,7 +12,7 @@ router.use('/getroute',require('./getroute'));
 router.use('/getcode',require('./getcode'));
 
 //绑定手机
-router.use('/bine',require('./bine'));
+router.use('/bind',require('./bind'));
 
 //获取收件列表
 router.use('/getarrivelist',require('./getarrivelist'));

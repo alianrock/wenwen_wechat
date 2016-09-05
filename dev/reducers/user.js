@@ -1,9 +1,9 @@
-import {START_GET_USER,RECEIVE_USER,GET_USER_FAIL,USER_NO_BIND} from '../actions/user';
+import {START_GET_USER,RECEIVE_USER,GET_USER_FAIL,USER_NO_BIND,CLEAR_TOKEN} from '../actions/user';
 
 export function user(state = {
 	token:'',
 	tel:'',
-	noBind:false,
+	hasGetToken:false,
 	isRequesting:false,
 	err:null
 },action){
@@ -16,7 +16,7 @@ export function user(state = {
 			return Object.assign({},state,{
 				token:action.result.token,
 				tel:action.result.phone,
-				noBind:false,
+				hasGetToken:true,
 				isRequesting:false
 			});
 		case 'GET_USER_FAIL':
@@ -24,11 +24,9 @@ export function user(state = {
 				isRequesting:false,
 				err:action.result
 			});
-		case 'USER_NO_BIND':
+		case 'CLEAR_TOKEN':
 			return Object.assign({},state,{
-				isRequesting:false,
-				noBind:true,
-				token:action.result.token
+				token:''
 			});
 		default:
 			return state; 

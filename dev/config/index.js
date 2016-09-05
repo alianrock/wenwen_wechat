@@ -1,3 +1,4 @@
+import {getQueryString} from '../utils';
 
 //路由能查询到的公司
 export const ROUTE_EXPRESS_COMPONEY = [
@@ -40,7 +41,8 @@ export const API = process.env.NODE_ENV?{
 		//增加修改地址
 		editAddr:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
 		//获取区域信息
-		getArea:'http://wx.ichuangwen.com/jpex/jsp/control.jsp'
+		getArea:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		bind:'http://wx.ichuangwen.com/jpex/jsp/control.jsp'
 	}:{
 		//获取User
 		getUser: '/mock/gettoken',
@@ -61,7 +63,8 @@ export const API = process.env.NODE_ENV?{
 		//增加修改地址
 		editAddr:'/mock/editaddr',
 		//获取区域信息
-		getArea:'/mock/getarea'
+		getArea:'/mock/getarea',
+		bind:'/mock/bind'
 	};
 
 //服务器错误提示
@@ -70,29 +73,38 @@ export const SERVER_ERR_TIP = '服务器开小差了哦，请稍后再试！';
 
 //code_map
 export const CODE_MAP = {
-	'-1':{msg:'非微信操作',pass:false},
-	'-2':{msg:'微信服务器错误，请重新打开页面哦',pass:false},//code失效
-	'-3':{msg:'微信服务器错误，请重新打开页面哦',pass:false},//微信服务器无响应
-	'0':{msg:'操作成功',pass:true},
-	'1':{msg:'用户不存在',pass:true},
-	'2':{msg:'未绑定手机',pass:false},
-	'3':{msg:'参数错误',pass: false},
-	'4':{msg:'登录过期，请刷新一下哦',pass:false},
-	'5':{msg:'操作失败，请再尝试一下哦',pass:false},
-	'11':{msg:'用户名或密码错误',pass:false},
-	'12':{msg:'手机号未绑定',pass:false},
-	'13':{msg:'手机号已被绑定',pass:false},
-	'21':{msg:'请先发送验证码',pass:false},
-	'22':{msg:'验证码已过期，请重新获取',pass:false},
-	'23':{msg:'验证吗错误',pass:false},
-	'24':{msg:'验证码失效，请重新发送',pass:false},
-	'31':{msg:'未认证骑士',pass:false},
-	'32':{msg:'运单信息错误',pass:false},
-	'33':{msg:'门店信息错误',pass:false},
-	'34':{msg:'地址信息错误',pass:false},
-	'35':{msg:'寄件已经受理，无法删除哦',pass:false},
-	'36':{msg:'预约收件方式不能改变',pass:false},
-	'37':{msg:'根据验证码签收失败',pass:false}
+'-1':{msg:'非微信操作',pass:false},
+'-2':{msg:'微信服务器错误，请重新打开页面哦',pass:false},//code失效
+'-3':{msg:'微信服务器错误，请重新打开页面哦',pass:false},//微信服务器无响应
+'0':{msg:'操作成功',pass:true},
+'1':{msg:'操作失败，请再尝试一下哦',pass:false},
+'2':{msg:'参数错误',pass:false},
+'3':{msg:'信息错误',pass:false},
+'4':{msg:'系统繁忙，请稍后再试哦',pass:false},
+
+'5':{msg:'用户不存在',pass:false},
+'6':{msg:'未绑定手机',pass:false},
+'7':{msg:'登录过期，请刷新一下哦',pass:false},
+'8':{msg:'token验证错误，请刷新一下哦',pass:false},
+
+'10':{msg:'用户名或密码错误',pass:false},
+'11':{msg:'手机号未绑定',pass:false},
+'12':{msg:'手机号已被绑定',pass:false},
+
+'20':{msg:'请先发送验证码',pass:false},
+'21':{msg:'验证码过期，请重新获取',pass:false},
+'22':{msg:'验证码错误',pass:false},
+'23':{msg:'验证码失效，请重新发送',pass:false},
+
+'30':{msg:'未认证骑士',pass:false},
+'31':{msg:'运单信息错误',pass:false},
+'32':{msg:'门店信息错误',pass:false},
+'33':{msg:'地址信息错误',pass:false},
+'34':{msg:'寄件已经受理，无法删除哦',pass:false},
+'35':{msg:'预约收件方式不能改变',pass:false},
+'36':{msg:'签收失败',pass:false},
+'37':{msg:'滞留件不允许此操作，无法执行这个操作哦',pass:false}
+
 }
 
 //cookie保存时间
@@ -132,3 +144,12 @@ export const WAYBILL_TASK_STATUS = {
 	USER_CANCEL:-2,//用户取消
 	PROBLEM_TASK:-3//问题任务
 }
+
+
+//client
+export const CLINET = getQueryString('from');
+
+//USER_AGENT
+export const USER_AGENT = navigator.userAgent;
+
+

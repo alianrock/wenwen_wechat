@@ -1,6 +1,7 @@
 import reqwest from 'reqwest';
 import {tipShowAndFade} from './tip';
-import {API,CODE_MAP,SERVER_ERR_TIP} from '../config';
+import {getUser} from './user';
+import {API,CODE_MAP,SERVER_ERR_TIP,CLINET} from '../config';
 
 
 export const START_ADDR_REQUEST = 'START_ADDR_REQUEST';
@@ -73,6 +74,12 @@ export function getAddrList(token){
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveAddrList(res));
 			}else{
+				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
+					dispatch(getUser(function(token){
+                        dispatch(getAddrList(token));
+					},true,res.respCode));
+					return;
+				}
 				dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
@@ -122,6 +129,12 @@ export function deleteAddr(token,id,callback){
 					callback(res);
 				}
 			}else{
+				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
+					dispatch(getUser(function(token){
+                        dispatch(deleteAddr(token,id,callback));
+					},true,res.respCode));
+					return;
+				}
 				dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
@@ -145,7 +158,7 @@ function receiveEditResult(result,data,type){
 }
 
 
-//删除地址
+//编辑地址
 export function editAddr(token,data,callback){
 	if(!token) {
 		dispatch(tipShowAndFade(SERVER_ERR_TIP));
@@ -180,6 +193,12 @@ export function editAddr(token,data,callback){
 					callback(res);
 				}
 			}else{
+				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
+					dispatch(getUser(function(token){
+                        dispatch(editAddr(token,data,callback));
+					},true,res.respCode));
+					return;
+				}
 				dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
@@ -271,6 +290,12 @@ export function getArea(token,areaCode,type){
 					dispatch(receiveAreaStreet(res));
 				}
 			}else{
+				if(res.respCode == '7' || res.respCode == '8'|| (res.respCode == '5' && CLINET == 'app')){
+					dispatch(getUser(function(token){
+                        dispatch(getArea(token,areaCode,type));
+					}, true, res.respCode));
+					return;
+				}
 				dispatch(areaRequstFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}

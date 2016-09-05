@@ -13,6 +13,8 @@ export default class WaybillArriveList extends Component {
 		this.state = {
 			complete:false
 		}
+		this.completeItems = [];
+		this.noCompleteItems = [];
 	}
 
 	renderList(){

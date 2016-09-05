@@ -121,12 +121,12 @@ function updateList(list,editType,newData){
 			if(item.addressId == newData.addressId){
 				return Object.assign({},item,newData);
 			}else{
-				return (!!newData.isDefault && newData.type == item.type)?Object.assign({},item,{isDefault:0}):item;
+				return (newData.isDefault == '1' && newData.type == item.type)?Object.assign({},item,{isDefault:'0'}):item;
 			}
 		});
 	}else{
 		let newList;
-		if(!!newData.isDefault){
+		if(newData.isDefault == '1'){
 			newList = list.map((item)=>{
 				return (newData.type == item.type)?Object.assign({},item,{isDefault:0}):item;
 			});

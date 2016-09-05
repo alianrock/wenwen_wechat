@@ -9,6 +9,7 @@ import HadBind from '../../components/Bind/HadBind';
 
 import * as bindActions from '../../actions/bind';
 import {getUserFromRemote} from '../../actions/user';
+import {clearToken} from '../../actions/user';
 import {tipShowAndFade} from '../../actions/tip';
 
 import style from './style.less';
@@ -23,7 +24,7 @@ class BindCon extends Component {
 	}
 	componentDidMount(){
 		const {user,getUserFromRemote} = this.props;
-		if(!user.token){
+		if(!user.token && !user.hasGetToken){
 			getUserFromRemote();
 		}
 	}
@@ -42,7 +43,7 @@ class BindCon extends Component {
 	
 
 	render(){
-		const {tip,user,bind,bindActions,tipShowAndFade} = this.props;
+		const {tip,user,bind,bindActions,tipShowAndFade,clearToken} = this.props;
 		let loadingComponent;
 		let mainComponent;
 		if(user.isRequesting || bind.bindCode.isRequesting || bind.bindTel.isRequesting) {
@@ -58,6 +59,7 @@ class BindCon extends Component {
 						rebind = {this.state.rebind} 
 						bind = {bindActions.bind} 
 						getCode = {bindActions.getCode}
+						clearToken = {clearToken}
 						user = {user}
 						tipShowAndFade = {tipShowAndFade} 
 						handleBind = {this.handleBind.bind(this)}/>
@@ -85,6 +87,7 @@ BindCon.propTypes = {
 	bind:PropTypes.object.isRequired,
 	bindActions:PropTypes.object.isRequired,
 	getUserFromRemote:PropTypes.func.isRequired,
+	clearToken: PropTypes.func.isRequired,
 	tipShowAndFade:PropTypes.func.isRequired
 }
 
@@ -100,7 +103,8 @@ function mapDispatchToProps(dispatch){
 	return {
 		bindActions: bindActionCreators(bindActions, dispatch),
 		tipShowAndFade: bindActionCreators(tipShowAndFade,dispatch),
-		getUserFromRemote: bindActionCreators(getUserFromRemote,dispatch)
+		getUserFromRemote: bindActionCreators(getUserFromRemote,dispatch),
+		clearToken: bindActionCreators(clearToken,dispatch)
 	}
 }
 

@@ -1,6 +1,7 @@
 import reqwest from 'reqwest';
 import {tipShowAndFade} from './tip';
-import {API,CODE_MAP,SERVER_ERR_TIP} from '../config';
+import {getUser} from './user';
+import {API,CODE_MAP,SERVER_ERR_TIP,CLINET} from '../config';
 
 //获取列表
 export const START_GET_LIST = 'START_REQUEST_LIST';
@@ -50,7 +51,7 @@ function getListFail(err,msg){
 		}
 	}
 }
-
+ // var hasTry = false;
 //请求列表
 export function getList(token,type,complete){
 	if(!token) {
@@ -69,9 +70,20 @@ export function getList(token,type,complete){
 				isCompleted:complete
 			}
 		}).then(res => {
+			// if(!hasTry){
+			// 	res.respCode = '5';
+			// 	hasTry = true;
+			// }
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveList(res));
 			}else{
+				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
+					dispatch(getUser(function(token){
+                        dispatch(getList(token,type,complete));
+					},true,res.respCode));
+					return;
+				}
+				
 				dispatch(getListFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
@@ -152,6 +164,12 @@ export function changeDiliverWay(token,data,callback){
 				dispatch(hideCover());
 				dispatch(tipShowAndFade('修改成功'));
 			}else{
+				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
+					dispatch(getUser(function(token){
+                        dispatch(changeDiliverWay(token,data,callback));
+					},true,res.respCode));
+					return;
+				}
 				dispatch(changeDiliverWayFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
@@ -200,6 +218,12 @@ export function getLog(token,id){
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveLog(res,id));
 			}else{
+				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
+					dispatch(getUser(function(token){
+                        dispatch(getLog(token,id));
+					},true,res.respCode));
+					return;
+				}
 				dispatch(getLogFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
@@ -264,6 +288,12 @@ export function getAddrList(token){
 				token:token
 			}
 		}).then(res => {
+			if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
+				dispatch(getUser(function(token){
+                    dispatch(getAddrList(token));
+				},true,res.respCode));
+				return;
+			}
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveAddrList(res));
 			}else{

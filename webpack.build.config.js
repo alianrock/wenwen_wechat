@@ -78,6 +78,11 @@ module.exports = {
 			template:'./dev/html/template.html',
 			chunks: ['vendor','waybillArrive'],
 			title:'我的收件'
+		}),
+		new HtmlWebpackPlugin({
+			filename:'html/clearData.html',
+			template:'./dev/html/clearData.html',
+			chunks: []
 		})
 	],
 	module: {

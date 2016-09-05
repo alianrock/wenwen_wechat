@@ -40,8 +40,11 @@ export default class Bind extends Component {
 			this.props.tipShowAndFade('请填写正确的电话号码');
 			return;
 		}
-		this.countDown();
-		this.props.getCode(tel);
+		this.props.getCode(tel,this.countDown.bind(this));
+	}
+
+	componentWillUnmount(){
+		clearInterval(this.timer);
 	}
 
 	bindTel(){
@@ -59,6 +62,10 @@ export default class Bind extends Component {
 		if(this.props.handleBind){
 			this.props.handleBind();
 		}
+
+		//清除token
+		if(this.props.clearToken) this.props.clearToken();
+		
 		const data = {
 			verificationCode: code,
 			phone: tel,

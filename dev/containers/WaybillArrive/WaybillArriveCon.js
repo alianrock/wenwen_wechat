@@ -13,7 +13,6 @@ import * as waybillArriveActions from '../../actions/waybillArrive';
 import {getUser} from '../../actions/user';
 import {tipShowAndFade} from '../../actions/tip';
 
-
 class WaybillArriveCon extends Component {
 	
 	constructor(props, context){
@@ -29,14 +28,19 @@ class WaybillArriveCon extends Component {
 	// }
 
 	componentWillMount(){
-		const {getUser,waybillActions} = this.props;
-		getUser(function(token){
-			if(!token){
-				hashHistory.push('/bind/toindex');
-			}else{
-				waybillActions.getList(token,'ex2u',0);
-			}
-		}.bind(this));
+		const {user,getUser,waybillActions} = this.props;
+		if(user.hasGetToken && !user.token)
+		{
+			hashHistory.push('/bind/toindex');
+		}else if(!user.token){
+			getUser(function(token){
+				if(!token){
+					hashHistory.push('/bind/toindex');
+				}else{
+					waybillActions.getList(token,'ex2u',0);
+				}
+			}.bind(this));
+		}
 	}
 	
 	getCompleteList(){
@@ -52,7 +56,7 @@ class WaybillArriveCon extends Component {
 		const {waybillActions,tipShowAndFade,
 				user,waybillArrive,tip} = this.props; 
 		let loadingComponent;
-		if(user.isRequsting || waybillArrive.isRequesting) {
+		if(user.isRequesting || waybillArrive.isRequesting) {
 			loadingComponent = <Loading />;
 		}
 		return (

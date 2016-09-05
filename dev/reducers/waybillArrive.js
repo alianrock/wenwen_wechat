@@ -132,7 +132,8 @@ function waybillList(state,action){
 	switch(action.type){
 		case START_GET_LIST:
 			return Object.assign({},state,{
-				isRequesting: true
+				isRequesting: true,
+				list:[]
 			});
 		case GET_LIST_FAIL:
 			return Object.assign({},state,{

@@ -77,7 +77,11 @@ export function requestRoute(ShipperCode,number){
 				dispatch(receiveRoute(res));
 			}else{
 				dispatch(requestRouteFail(res.respCode,CODE_MAP[res.respCode].msg));
-				dispatch(tipShow(CODE_MAP[res.respCode].msg));
+				if(res.Reason){
+					dispatch(tipShowAndFade(res.Reason));
+				}else{
+					dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
+				}
 			}
 		})	
 		.fail((err, msg) =>{

@@ -22,19 +22,29 @@ class AddressEditCon extends Component {
 	}
 	
 	componentWillMount(){
-		const {getUser,addressActions,address} = this.props;
-		getUser(function(token){
-			if(!token){
-				hashHistory.push('/bind/back');
-			}else if(!address.list){
-				addressActions.getAddrList(token);	
-			}
-		}.bind(this));
+		const {user,getUser,addressActions,address} = this.props;
+		if(user.hasGetToken && !user.token){
+			hashHistory.push('/bind/back');
+		}else if(!user.token){
+			getUser(function(token){
+				if(!token){
+					hashHistory.push('/bind/back');
+				}else if(!address.list){
+					addressActions.getAddrList(token);	
+				}
+			}.bind(this));
+		}else if(user.token){
+			this.getAddressDate(address.list);
+		}
 	}
 
 	componentWillReceiveProps(nextProps){
-		if(nextProps.address.list && this.addressId && !this.addressData){
-			nextProps.address.list.map((item)=>{
+		if(nextProps.address) this.getAddressDate(nextProps.address.list);
+	}
+
+	getAddressDate(addressList){
+		if(addressList && this.addressId && !this.addressData){
+			addressList.map((item)=>{
 				if(this.addressId == item.addressId){
 					this.addressData = item;
 				}

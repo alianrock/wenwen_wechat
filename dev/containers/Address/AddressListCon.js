@@ -18,14 +18,18 @@ class AddressListCon extends Component {
 	}
 
 	componentWillMount(){
-		const {getUser,addressActions,address} = this.props;
-		getUser(function(token){
-			if(!token){
-				hashHistory.push('/bind/back');
-			}else if(!address.list){
-				addressActions.getAddrList(token);	
-			}
-		}.bind(this));
+		const {user,getUser,addressActions,address} = this.props;
+		if(user.hasGetToken && !user.token){
+			hashHistory.push('/bind/back');
+		}else if(!user.token){
+			getUser(function(token){
+				if(!token){
+					hashHistory.push('/bind/back');
+				}else if(!address.list){
+					addressActions.getAddrList(token);
+				}
+			}.bind(this));
+		}
 	}
 
 	handleEdit(type,id){

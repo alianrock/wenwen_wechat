@@ -40,7 +40,7 @@ export function getCodeFail(err, msg){
 }
 
 //请求验证码
-export function getCode(tel){
+export function getCode(tel,callback){
 	return dispatch => {
 		dispatch(startGetCode());
 		return reqwest({
@@ -56,6 +56,7 @@ export function getCode(tel){
 		.then(res => {
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveCode(res));
+				if(callback) callback();
 			}else{
 				dispatch(getCodeFail(res.respCode,CODE_MAP[res.respCode].msg));
 				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
@@ -115,7 +116,7 @@ export function bind(data,rebind,callback){
 
 		dispatch(startBind());
 		return reqwest({
-			url:'/mock/bine',
+			url:API.bind,
 			type:'json',
 			data:data
 		})
