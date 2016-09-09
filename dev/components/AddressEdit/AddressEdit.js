@@ -23,11 +23,11 @@ export default class AddressEdit extends Component {
 		// console.log(this.props.addressData);
 	}
 
-	componentWillReceiveProps(nextProps){
-		const {addressData} = nextProps;
-		this.setAddressState(addressData);
-	}
-
+	// componentWillReceiveProps(nextProps){
+	// 	const {addressData} = nextProps;
+	// 	console.log('componentWillReceiveProps',addressData);
+	// 	// this.setAddressState(addressData);
+	// }
 
 	setAddressState(addressData){
 		if(addressData){
@@ -35,7 +35,7 @@ export default class AddressEdit extends Component {
 				name: addressData.name,
 				phone: addressData.phone,
 				pcdName: addressData.pcdName,
-				pcdCode: addressData.pcdCode,
+				pcdCode:  addressData.pcdCode,
 				detailAddress:addressData.detailAddress,
 				isDefault: addressData.isDefault
 			});
@@ -104,14 +104,18 @@ export default class AddressEdit extends Component {
 	}
 
 	changeArea(pcdCode,pcdName){
+		console.log('changeArea',pcdName);
 		this.setState({
 			pcdName:pcdName,
 			pcdCode:pcdCode
 		});
-	}
+		console.log('changeArea',this.state);
+
+	}	
 
 	render(){
 		const {user,addressData,dataProvince,dataCity,dataDistrict,dataStreet,tipShowAndFade,getArea,selectArea,clearArea,areaIsRequesting} = this.props;
+		console.log('render',this.state);
 
 		return (
 			<div className = 'addressEdit-wrapper'>

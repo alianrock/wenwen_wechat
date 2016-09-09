@@ -56,11 +56,12 @@ function receiveAddrList(result){
 
 //获取地址列表
 export function getAddrList(token){
-	if(!token) {
-		dispatch(startRequst(SERVER_ERR_TIP));
-		return;
-	}
+	
 	return dispatch =>{
+		if(!token) {
+			dispatch(startRequst(SERVER_ERR_TIP));
+			return;
+		}
 		dispatch(startRequst());
 		return reqwest({
 			url:API.getAddrList,
@@ -106,11 +107,12 @@ function receiveDeleteResult(result,id){
 
 //删除地址
 export function deleteAddr(token,id,callback){
-	if(!token) {
-		dispatch(tipShowAndFade(SERVER_ERR_TIP));
-		return;
-	}
+
 	return dispatch =>{
+		if(!token) {
+			dispatch(tipShowAndFade(SERVER_ERR_TIP));
+			return;
+		}
 		dispatch(startRequst());
 		return reqwest({
 			url:API.delAddr,
@@ -160,11 +162,12 @@ function receiveEditResult(result,data,type){
 
 //编辑地址
 export function editAddr(token,data,callback){
-	if(!token) {
-		dispatch(tipShowAndFade(SERVER_ERR_TIP));
-		return;
-	}
+	
 	return dispatch =>{
+		if(!token) {
+			dispatch(tipShowAndFade(SERVER_ERR_TIP));
+			return;
+		}
 		dispatch(startRequst());
 		return reqwest({
 			url:API.editAddr,
@@ -263,11 +266,12 @@ function areaRequstFail(err,msg){
 
 //获取省市区
 export function getArea(token,areaCode,type){
-	if(!token) {
-		dispatch(tipShowAndFade(SERVER_ERR_TIP));
-		return;
-	}
+	
 	return dispatch =>{
+		if(!token) {
+			dispatch(tipShowAndFade(SERVER_ERR_TIP));
+			return;
+		}
 		dispatch(startAreaRequst());
 		return reqwest({
 			url:API.getArea,

@@ -54,11 +54,12 @@ function getListFail(err,msg){
  // var hasTry = false;
 //请求列表
 export function getList(token,type,complete){
-	if(!token) {
-		dispatch(tipShowAndFade(SERVER_ERR_TIP));
-		return;
-	}
+	
 	return (dispatch) => {
+		if(!token) {
+			dispatch(tipShowAndFade(SERVER_ERR_TIP));
+			return;
+		}
 		dispatch(startRequestList());
 		return reqwest({
 			url:API.getArriveList,
@@ -137,11 +138,12 @@ function receiveChangeDiliverWay(data){
 
 //选择配送方式
 export function changeDiliverWay(token,data,callback){
-	if(!token) {
-		dispatch(tipShowAndFade(SERVER_ERR_TIP));
-		return;
-	}
+	
 	return (dispatch) => {
+		if(!token) {
+			dispatch(tipShowAndFade(SERVER_ERR_TIP));
+			return;
+		}
 		dispatch(startChangeDiliverWay());
 		return reqwest({
 			url:API.changeWay,
@@ -199,11 +201,12 @@ function receiveLog(result,dataId){
 	}
 }
 export function getLog(token,id){
-	if(!token) {
-		dispatch(tipShowAndFade(SERVER_ERR_TIP));
-		return;
-	}
+	
 	return (dispatch) => {
+		if(!token) {
+			dispatch(tipShowAndFade(SERVER_ERR_TIP));
+			return;
+		}
 		dispatch(startGetLog);
 		return reqwest({
 			url:API.getLog,
@@ -273,11 +276,12 @@ function receiveAddrFail(err,msg){
 
 //获取地址列表
 export function getAddrList(token){
-	if(!token) {
-		dispatch(tipShowAndFade(SERVER_ERR_TIP));
-		return;
-	}
+	
 	return dispatch =>{
+		if(!token) {
+			dispatch(tipShowAndFade(SERVER_ERR_TIP));
+			return;
+		}
 		dispatch(startGetAddrList());
 		return reqwest({
 			url:API.getAddrList,

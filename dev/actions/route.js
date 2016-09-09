@@ -56,11 +56,12 @@ export function requestRouteFail(err, msg){
 
 //请求路由信息
 export function requestRoute(ShipperCode,number){
-	if(!ShipperCode || !number){
-		tipShowAndFade('查询信息不全哦');
-		return;
-	}
+	
 	return (dispatch) => {
+		if(!ShipperCode || !number){
+			dispatch(tipShowAndFade('查询信息不全哦'));
+			return;
+		}
 		dispatch(startRequestRoute());
 		return reqwest({
 			url: API.getRoute,
