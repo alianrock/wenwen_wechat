@@ -22,20 +22,13 @@ class AddressEditCon extends Component {
 	}
 	
 	componentWillMount(){
-		const {user,getUser,addressActions,address} = this.props;
-		if(user.hasGetToken && !user.token){
-			hashHistory.push('/bind/back');
-		}else if(!user.token){
-			getUser(function(token){
-				if(!token){
-					hashHistory.push('/bind/back');
-				}else if(!address.list){
-					addressActions.getAddrList(token);	
-				}
-			}.bind(this));
-		}else if(user.token){
-			this.getAddressDate(address.list);
-		}
+		const {getUser,addressActions} = this.props;
+
+		//获取token
+		getUser(function(token){
+			addressActions.getAddrList(token);	
+		}.bind(this),true);
+		
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -51,7 +44,6 @@ class AddressEditCon extends Component {
 			});
 		}
 	}
-	
 
 	render(){
 		const {tip,user,address,addressActions,tipShowAndFade} = this.props;

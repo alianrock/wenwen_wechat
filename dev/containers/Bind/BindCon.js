@@ -17,17 +17,17 @@ import style from './style.less';
 class BindCon extends Component {
 	constructor(props,context){
 		super(props,context);
+		//back参数用来判断绑定页面进入的入口（1）直接进入绑定页面，没有back参数（2）从其他页面跳转进入，有back参数
 		this.back = (this.props.params && this.props.params.back) || null;
 		this.state = {
 			rebind:false
 		}
 	}
 	componentDidMount(){
-		const {user,getUserFromRemote} = this.props;
-		if(!user.token && !user.hasGetToken){
-			getUserFromRemote();
-		}
+		const {getUserFromRemote} = this.props;
+		getUserFromRemote();
 	}
+	
 	handleRebind(){
 		this.setState({
 			rebind:true
@@ -66,6 +66,8 @@ class BindCon extends Component {
 				</div>
 				);
 		}else{
+		console.log('hadbind');
+
 			mainComponent = <HadBind back = {this.back} tel = {user.tel} handleRebind = {this.handleRebind.bind(this)}/>;
 		}
 

@@ -4,6 +4,6 @@ var Mock = require('mockjs');
 
 
 router.get('/',function (req, res, next){
-	res.json({"respCode":"0","respMsg":"操作成功"});
+	res.json({"respCode":"5","respMsg":"操作成功"});
 });
 module.exports = router;

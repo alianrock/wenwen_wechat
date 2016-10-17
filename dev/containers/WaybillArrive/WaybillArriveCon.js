@@ -28,19 +28,10 @@ class WaybillArriveCon extends Component {
 	// }
 
 	componentWillMount(){
-		const {user,getUser,waybillActions} = this.props;
-		if(user.hasGetToken && !user.token)
-		{
-			hashHistory.push('/bind/toindex');
-		}else if(!user.token){
-			getUser(function(token){
-				if(!token){
-					hashHistory.push('/bind/toindex');
-				}else{
-					waybillActions.getList(token,'ex2u',0);
-				}
-			}.bind(this));
-		}
+		const {getUser,waybillActions} = this.props;
+		getUser(function(token){
+			waybillActions.getList(token,'ex2u',0);
+		}.bind(this),true);
 	}
 	
 	getCompleteList(){

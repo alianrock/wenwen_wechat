@@ -5,7 +5,7 @@ var Mock = require('mockjs');
 
 router.get('/',function (req, res, next){
 	res.json({
-		respCode:'0',
+		respCode:'5',
 		respMsg:'成功'
 	});
 });

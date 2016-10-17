@@ -82,10 +82,10 @@ export const CODE_MAP = {
 '3':{msg:'信息错误',pass:false},
 '4':{msg:'系统繁忙，请稍后再试哦',pass:false},
 
-'5':{msg:'用户不存在',pass:false},
-'6':{msg:'未绑定手机',pass:false},
-'7':{msg:'登录过期，请刷新一下哦',pass:false},
-'8':{msg:'token验证错误，请刷新一下哦',pass:false},
+'5':{msg:'用户不存在',pass:false, action: 'reGetUser'},
+'6':{msg:'未绑定手机',pass:false, action:'bind'},
+'7':{msg:'登录过期，请刷新一下哦',pass:false, action: 'reGetUser'},
+'8':{msg:'token验证错误，请刷新一下哦',pass:false, action: 'reGetUser'},
 
 '10':{msg:'用户名或密码错误',pass:false},
 '11':{msg:'手机号未绑定',pass:false},

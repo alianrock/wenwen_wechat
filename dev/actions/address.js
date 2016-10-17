@@ -1,6 +1,6 @@
 import reqwest from 'reqwest';
 import {tipShowAndFade} from './tip';
-import {getUser} from './user';
+import {getUser,loginCharge} from './user';
 import {API,CODE_MAP,SERVER_ERR_TIP,CLINET} from '../config';
 
 
@@ -75,14 +75,15 @@ export function getAddrList(token){
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveAddrList(res));
 			}else{
-				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
-					dispatch(getUser(function(token){
-                        dispatch(getAddrList(token));
-					},true,res.respCode));
-					return;
+				
+				if(loginCharge(dispatch,res.respCode, (token) => 
+					dispatch(getAddrList(token))
+				)){
+					dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
+				}else{
+					dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
+					dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 				}
-				dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
-				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
 		})
 		.fail((err,msg) => {
@@ -131,14 +132,14 @@ export function deleteAddr(token,id,callback){
 					callback(res);
 				}
 			}else{
-				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
-					dispatch(getUser(function(token){
-                        dispatch(deleteAddr(token,id,callback));
-					},true,res.respCode));
-					return;
+				if(loginCharge(dispatch,res.respCode, (token) => 
+					dispatch(deleteAddr(token,id,callback))
+				)){
+					dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
+				}else{
+					dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
+					dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 				}
-				dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
-				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
 		})
 		.fail((err,msg) => {
@@ -196,14 +197,15 @@ export function editAddr(token,data,callback){
 					callback(res);
 				}
 			}else{
-				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
-					dispatch(getUser(function(token){
-                        dispatch(editAddr(token,data,callback));
-					},true,res.respCode));
-					return;
+				if(loginCharge(dispatch, res.respCode, (token) => {
+					dispatch(editAddr(token,data,callback));
 				}
-				dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
-				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
+				)){
+					dispatch(getResultFail(res.respCode,CODE_MAP[res.respCode].msg));
+				}else{
+					dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
+				}
+				
 			}
 		})
 		.fail((err,msg) => {
@@ -294,14 +296,14 @@ export function getArea(token,areaCode,type){
 					dispatch(receiveAreaStreet(res));
 				}
 			}else{
-				if(res.respCode == '7' || res.respCode == '8'|| (res.respCode == '5' && CLINET == 'app')){
-					dispatch(getUser(function(token){
-                        dispatch(getArea(token,areaCode,type));
-					}, true, res.respCode));
-					return;
+				if(loginCharge(dispatch,res.respCode, (token) => 
+					dispatch(getArea(token,areaCode,type))
+				)){
+					dispatch(areaRequstFail(res.respCode,CODE_MAP[res.respCode].msg));
+				}else{
+					dispatch(areaRequstFail(res.respCode,CODE_MAP[res.respCode].msg));
+					dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 				}
-				dispatch(areaRequstFail(res.respCode,CODE_MAP[res.respCode].msg));
-				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
 		})
 		.fail((err,msg) => {

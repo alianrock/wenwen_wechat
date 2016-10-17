@@ -5,9 +5,9 @@ var Mock = require('mockjs');
 
 router.get('/',function (req, res, next){
 	res.json({
-		respCode:'0',
+		respCode:'6',
 		respMsg:'成功',
-		token:'656655',
+		token:'12344',
 		phone:'123233333'
 	});
 });

@@ -40,7 +40,7 @@ export default class WaybillArriveCoverAddress extends Component {
 			changeData.address = newAddr;
 			this.props.changeDiliverWay(user.token,changeData);
 		}else if(!this.state.showAddAddrInput && this.state.selectAddr){
-			changeData.address = this.state.selectAddr.addressId;
+			changeData.address = this.state.selectAddr.pcdName + this.state.selectAddr.detailAddress;
 			changeData.name = this.state.selectAddr.name;
 			changeData.phone = this.state.selectAddr.phone;
 			this.props.changeDiliverWay(user.token,changeData);

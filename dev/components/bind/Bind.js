@@ -4,7 +4,7 @@ export default class Bind extends Component {
 	constructor(props,context){
 		super(props,context);
 		this.state = {
-			count:30,
+			count:60,
 			wait:false
 		}
 
@@ -12,7 +12,6 @@ export default class Bind extends Component {
 	}
 
 	countDown(){
-
 		this.setState({
 			wait:true
 		});
@@ -22,7 +21,7 @@ export default class Bind extends Component {
 				clearInterval(this.timer);
 				this.setState({
 					wait:false,
-					count:30
+					count:60
 				});
 				return;
 			}
@@ -59,9 +58,6 @@ export default class Bind extends Component {
 			this.props.tipShowAndFade('请填写正确的电话号码');
 			return;
 		}
-		if(this.props.handleBind){
-			this.props.handleBind();
-		}
 
 		//清除token
 		if(this.props.clearToken) this.props.clearToken();
@@ -69,16 +65,27 @@ export default class Bind extends Component {
 		const data = {
 			verificationCode: code,
 			phone: tel,
-			token: this.props.rebind?this.props.user.token:null 
+			token: this.props.rebind ? this.props.user.token : null 
 		}
-		this.props.bind(data,this.props.rebind,this.props.bindCallBack);
+		
+
+		this.props.bind(data, this.props.rebind, function(){
+			//绑定成功后设置reset state为false
+			if(this.props.handleBind){
+				this.props.handleBind();
+			}
+			//绑定成功后跳转回原来的界面
+			if(this.props.handleBineJump){
+				this.props.handleBineJump();
+			}
+		}.bind(this));
 	}
 	render() {
 
 		return (
 			<div className = 'bindwarp'>	
-				<p className= 'bind-tip'>
-					<i className='bind-tip-icon'></i>
+				<p className = 'bind-tip'>
+					<i className ='bind-tip-icon'></i>
 					{
 						this.props.tipType? 
 							(

@@ -127,7 +127,7 @@ export function bind(data,rebind,callback){
 				dispatch(receiveUser({
 							token:data.token||res.token,
 							phone:data.phone
-						}));
+						},true));
 				dispatch(tipShowAndFade(rebind?'重新绑定成功！':'绑定成功!'));
 				if(callback){
 					callback();

@@ -18,22 +18,17 @@ class AddressListCon extends Component {
 	}
 
 	componentWillMount(){
-		const {user,getUser,addressActions,address} = this.props;
-		if(user.hasGetToken && !user.token){
-			hashHistory.push('/bind/back');
-		}else if(!user.token){
-			getUser(function(token){
-				if(!token){
-					hashHistory.push('/bind/back');
-				}else if(!address.list){
-					addressActions.getAddrList(token);
-				}
-			}.bind(this));
-		}
+		const {getUser,addressActions,address} = this.props;
+	
+		getUser(function(token){
+			if(!address.list){
+				addressActions.getAddrList(token);
+			}
+		}.bind(this),true);
 	}
 
 	handleEdit(type,id){
-		hashHistory.push('/edit/'+type+'/'+(id || ''));
+		hashHistory.push('/edit/'+ type + '/' + (id || ''));
 	}
 
 	render(){
@@ -53,9 +48,9 @@ class AddressListCon extends Component {
 }
 function mapStateToProps(state){
 	return {
-		tip:state.tip,
-		user:state.user,
-		address:state.address
+		tip: state.tip,
+		user: state.user,
+		address: state.address
 	}
 }
 

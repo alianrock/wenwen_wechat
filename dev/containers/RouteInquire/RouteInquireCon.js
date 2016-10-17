@@ -18,19 +18,21 @@ class RouteInquireCon extends Component {
 
 	constructor(props,context){
 		super(props,context);
-		this.back = (this.props.params && this.props.params.back) || 'bind';
+		this.back = (this.props.params && this.props.params.back);
 	}
 	
 	componentWillMount(){
-		const {user} = this.props;
-		if(!user.hasGetToken) this.props.userActions.getUser();
+		const {user,userActions} = this.props;
+		userActions.getUser();
 	}
 
-	handleBineCallBack(){
-		if(this.back == 'toindex'){
+	handleBineJump(){
+		//如果有返回，返回首页
+		if(this.back){
 			hashHistory.push('/');
+		//没有返回，绑定后返回绑定页面
 		}else{
-			hashHistory.push('/'+this.back);
+			hashHistory.push('/bind/back');
 		}
 	}
 
@@ -52,7 +54,7 @@ class RouteInquireCon extends Component {
 					bind = {bindActions.bind} 
 					getCode = {bindActions.getCode} 
 					tipShowAndFade = {tipActions.tipShowAndFade} 
-					bindCallBack = {this.handleBineCallBack.bind(this)}/>
+					handleBineJump = {this.handleBineJump.bind(this)}/>
 			);
 		}
 

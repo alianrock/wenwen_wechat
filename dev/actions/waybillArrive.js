@@ -1,6 +1,6 @@
 import reqwest from 'reqwest';
 import {tipShowAndFade} from './tip';
-import {getUser} from './user';
+import {getUser,loginCharge} from './user';
 import {API,CODE_MAP,SERVER_ERR_TIP,CLINET} from '../config';
 
 //获取列表
@@ -78,15 +78,12 @@ export function getList(token,type,complete){
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveList(res));
 			}else{
-				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
-					dispatch(getUser(function(token){
-                        dispatch(getList(token,type,complete));
-					},true,res.respCode));
-					return;
+				if(loginCharge(dispatch, res.respCode, (token) => dispatch(getList(token,type,complete)))){
+					dispatch(getListFail(res.respCode,CODE_MAP[res.respCode].msg));
+				}else{
+					dispatch(getListFail(res.respCode,CODE_MAP[res.respCode].msg));
+					dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 				}
-				
-				dispatch(getListFail(res.respCode,CODE_MAP[res.respCode].msg));
-				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
 		})
 		.fail((err,msg) => {
@@ -118,9 +115,12 @@ function startChangeDiliverWay(){
 }
 
 //改变配送方式失败
-function changeDiliverWayFail(err,msg){
+// @coverShow 是否显示或者隐藏cover
+function changeDiliverWayFail(err,msg,coverShow){
+	console.log('coverShow',coverShow);
 	return {
 		type: CHANGE_DILIVER_WAT_FAIL,
+		coverShow: coverShow != undefined ? coverShow : null,
 		result: {
 			err,
 			msg
@@ -145,6 +145,7 @@ export function changeDiliverWay(token,data,callback){
 			return;
 		}
 		dispatch(startChangeDiliverWay());
+		
 		return reqwest({
 			url:API.changeWay,
 			type:'json',
@@ -166,14 +167,14 @@ export function changeDiliverWay(token,data,callback){
 				dispatch(hideCover());
 				dispatch(tipShowAndFade('修改成功'));
 			}else{
-				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
-					dispatch(getUser(function(token){
-                        dispatch(changeDiliverWay(token,data,callback));
-					},true,res.respCode));
-					return;
+				if(loginCharge(dispatch, res.respCode, (token) => 
+					dispatch(changeDiliverWay(token,data,callback))
+				)){
+					dispatch(changeDiliverWayFail(res.respCode, CODE_MAP[res.respCode].msg, false));
+				}else{
+					dispatch(changeDiliverWayFail(res.respCode,CODE_MAP[res.respCode].msg));
+					dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 				}
-				dispatch(changeDiliverWayFail(res.respCode,CODE_MAP[res.respCode].msg));
-				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
 		})
 		.fail((err,msg) => {
@@ -221,14 +222,14 @@ export function getLog(token,id){
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveLog(res,id));
 			}else{
-				if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
-					dispatch(getUser(function(token){
-                        dispatch(getLog(token,id));
-					},true,res.respCode));
-					return;
+				if(loginCharge(dispatch, res.respCode, (token) => 
+					dispatch(getLog(token,id))
+				)){
+					dispatch(getLogFail(res.respCode,CODE_MAP[res.respCode].msg));
+				}else{
+					dispatch(getLogFail(res.respCode,CODE_MAP[res.respCode].msg));
+					dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 				}
-				dispatch(getLogFail(res.respCode,CODE_MAP[res.respCode].msg));
-				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
 			}
 		})
 		.fail((err,msg) => {
@@ -292,22 +293,23 @@ export function getAddrList(token){
 				token:token
 			}
 		}).then(res => {
-			if(res.respCode == '7' || res.respCode == '8' || (res.respCode == '5' && CLINET == 'app')){
-				dispatch(getUser(function(token){
-                    dispatch(getAddrList(token));
-				},true,res.respCode));
-				return;
-			}
 			if(CODE_MAP[res.respCode].pass){
 				dispatch(receiveAddrList(res));
 			}else{
-				dispatch(getLogFail(res.respCode,CODE_MAP[res.respCode].msg));
-				dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
+				if(loginCharge(dispatch, res.respCode, (token) => 
+					 dispatch(getAddrList(token))
+				)){
+					dispatch(receiveAddrFail(res.respCode,CODE_MAP[res.respCode].msg));
+				}else{
+					dispatch(receiveAddrFail(res.respCode,CODE_MAP[res.respCode].msg));
+					dispatch(tipShowAndFade(CODE_MAP[res.respCode].msg));
+				}
 			}
 		})
 		.fail((err,msg) => {
-			dispatch(receiveAddrList(err,msg));
+			dispatch(receiveAddrFail(err,msg));
 			dispatch(tipShowAndFade(SERVER_ERR_TIP));
 		});
 	}
 }
+

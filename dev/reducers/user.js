@@ -3,8 +3,8 @@ import {START_GET_USER,RECEIVE_USER,GET_USER_FAIL,USER_NO_BIND,CLEAR_TOKEN} from
 export function user(state = {
 	token:'',
 	tel:'',
-	hasGetToken:false,
 	isRequesting:false,
+	hasGetTokenFromRemote:false,
 	err:null
 },action){
 	switch(action.type){
@@ -16,7 +16,7 @@ export function user(state = {
 			return Object.assign({},state,{
 				token:action.result.token,
 				tel:action.result.phone,
-				hasGetToken:true,
+				hasGetTokenFromRemote:action.fromRemote,
 				isRequesting:false
 			});
 		case 'GET_USER_FAIL':

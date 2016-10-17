@@ -23,11 +23,12 @@ export default class AddressEdit extends Component {
 		// console.log(this.props.addressData);
 	}
 
-	// componentWillReceiveProps(nextProps){
-	// 	const {addressData} = nextProps;
-	// 	console.log('componentWillReceiveProps',addressData);
-	// 	// this.setAddressState(addressData);
-	// }
+	componentWillReceiveProps(nextProps){
+		const {addressData} = nextProps;
+		if(!this.state.name){
+			this.setAddressState(addressData);
+		}
+	}
 
 	setAddressState(addressData){
 		if(addressData){
@@ -82,7 +83,16 @@ export default class AddressEdit extends Component {
 			tipShowAndFade('请填写详细地址哦');
 			return;
 		}
-		let data = Object.assign({},this.state);
+
+		let data = Object.assign({},{
+			name:this.state.name.trim(),
+			phone:this.state.phone.trim(),
+			pcdName: this.state.pcdName,
+			pcdCode: this.state.pcdCode,
+			detailAddress: this.state.detailAddress.trim(),
+			isDefault: this.state.isDefault,
+			showAreaSelect: this.state.showAreaSelect
+		});
 		data.addressId = addressData? addressData.addressId : null;
 		data.type = type;
 		this.props.editAddr(user.token, data,function(){
@@ -104,18 +114,15 @@ export default class AddressEdit extends Component {
 	}
 
 	changeArea(pcdCode,pcdName){
-		console.log('changeArea',pcdName);
 		this.setState({
 			pcdName:pcdName,
 			pcdCode:pcdCode
 		});
-		console.log('changeArea',this.state);
 
 	}	
 
 	render(){
 		const {user,addressData,dataProvince,dataCity,dataDistrict,dataStreet,tipShowAndFade,getArea,selectArea,clearArea,areaIsRequesting} = this.props;
-		console.log('render',this.state);
 
 		return (
 			<div className = 'addressEdit-wrapper'>

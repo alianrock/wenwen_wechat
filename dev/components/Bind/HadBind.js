@@ -6,6 +6,7 @@ export default class HadBind extends Component {
 	handleRebind(){
 		this.props.handleRebind();
 	}
+	//绑定后返回原来页面
 	handleBack(){
 		hashHistory.push('/');
 	}

@@ -88,6 +88,7 @@ function cover(state,action){
 		case CHANGE_DILIVER_WAT_FAIL: 
 			return Object.assign({},state,{
 				isRequesting: false,
+				cover:Object.assign({}, state.cover, {isShow:action.coverShow !== null ? action.coverShow : state.cover}),
 				err:action.result
 			});
 		case RECEIVE_CHANGE_DILIVER_WAT: 

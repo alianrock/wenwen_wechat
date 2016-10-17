@@ -18,7 +18,7 @@ render(
 		<Router history = {hashHistory}>
 			<Route path = '/' component = {RouteInquireCon}/>
 			<Route path = '/route/:com/:num' component = {RouteCon}/>
-			<Route path = '/bind' component = {BindCon}/>
+			<Route path = '/bind/:back' component = {BindCon}/>
 		</Router>
 	</Provider>,
 	document.getElementById('j_wrap')

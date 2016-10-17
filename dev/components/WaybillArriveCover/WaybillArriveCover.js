@@ -11,7 +11,7 @@ export default class WaybillArriveCover extends Component {
 	constructor(props,context){
 		super(props,context);
 		this.btnList = [
-				{name:'配送上门',way:'3',type:'0',label:'deliver'},
+				// {name:'配送上门',way:'3',type:'0',label:'deliver'},
 				{name:'找人代拿',way:'1',type:'0',label:'help'},
 				{name:'隔天取件',way:'2',type:'0',label:'nextday'},
 				{name:'白天配送',way:'3',type:'1',label:'day'},
