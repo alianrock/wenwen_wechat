@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-	// devtool:'cheap-module-eval-source-map',
+	devtool:'cheap-module-eval-source-map',
 	entry:{
 		'routeInquire':[
 			'webpack-hot-middleware/client',
@@ -19,6 +19,10 @@ module.exports = {
 		'bind':[
 			'webpack-hot-middleware/client',
 			'./dev/page/bind/'
+		],
+		'question':[
+			'webpack-hot-middleware/client',
+			'./dev/page/question/'
 		],
 		'test':[
 			'webpack-hot-middleware/client',

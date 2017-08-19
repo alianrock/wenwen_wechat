@@ -18,7 +18,7 @@ export default class Search extends Component {
 		return (
 			<div className = 'search'>
 				<span className='search-icon icon icon-search'></span>
-				<input className='search-input' type='text' onChange = {this.handleChange.bind(this)} placeholder = '请输入运单号'/>	
+				<input className='search-input' type='text' onChange = {this.handleChange.bind(this)} placeholder = {this.props.placeholder}/>	
 			</div>
 		)
 	}

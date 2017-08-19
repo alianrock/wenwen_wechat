@@ -66,8 +66,6 @@ class BindCon extends Component {
 				</div>
 				);
 		}else{
-		console.log('hadbind');
-
 			mainComponent = <HadBind back = {this.back} tel = {user.tel} handleRebind = {this.handleRebind.bind(this)}/>;
 		}
 

@@ -13,7 +13,7 @@ import {getUser} from '../../actions/user';
 
 class AddressListCon extends Component {
 	constructor(props,context){
-		super(props.context);
+		super(props, context);
 		this.tabIndex = (props.params && props.params.tabindex) || 0;
 	}
 

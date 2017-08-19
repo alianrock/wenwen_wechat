@@ -80,7 +80,7 @@ export default class WaybillArriveList extends Component {
 		const {tipShowAndFade} = this.props;
 		return (
 			<div className = 'waybillList-wrapper'>
-				<Search filter = {this.handlefilter.bind(this)}/>
+				<Search filter = {this.handlefilter.bind(this)} placeholder = '请输入运单号'/>
 
 				<div className = 'waybillList-listWrapper'>
 					{this.renderList()}

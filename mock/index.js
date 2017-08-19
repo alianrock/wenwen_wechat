@@ -36,4 +36,10 @@ router.use('/editaddr',require('./editaddr'));
 //获取地址信息
 router.use('/getArea',require('./getArea'));
 
+//获取问题列表
+router.use('/getQsList',require('./getQsList'));
+
+//获取问题详情
+router.use('/getQs',require('./getQs'));
+
 module.exports = router;

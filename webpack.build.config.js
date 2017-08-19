@@ -17,6 +17,9 @@ module.exports = {
 		'bind':[
 			'./dev/page/bind/'
 		],
+		'question':[
+			'./dev/page/question/'
+		],
 		'test':[
 			'./dev/page/test/test'
 		],
@@ -78,6 +81,12 @@ module.exports = {
 			template:'./dev/html/template.html',
 			chunks: ['vendor','waybillArrive'],
 			title:'我的收件'
+		}),
+		new HtmlWebpackPlugin({
+			filename:'html/question.html',
+			template:'./dev/html/template.html',
+			chunks: ['vendor','waybillArrive'],
+			title:'常见问题'
 		}),
 		new HtmlWebpackPlugin({
 			filename:'html/clearData.html',

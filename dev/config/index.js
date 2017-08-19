@@ -42,7 +42,12 @@ export const API = process.env.NODE_ENV?{
 		editAddr:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
 		//获取区域信息
 		getArea:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
-		bind:'http://wx.ichuangwen.com/jpex/jsp/control.jsp'
+		//绑定
+		bind:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//获取问题列表
+		getQsList:'http://wx.ichuangwen.com/jpex/jsp/control.jsp',
+		//获取问题详情
+		getQsList:'http://wx.ichuangwen.com/jpex/jsp/control.jsp'
 	}:{
 		//获取User
 		getUser: '/mock/gettoken',
@@ -64,7 +69,12 @@ export const API = process.env.NODE_ENV?{
 		editAddr:'/mock/editaddr',
 		//获取区域信息
 		getArea:'/mock/getarea',
-		bind:'/mock/bind'
+		//绑定
+		bind:'/mock/bind',
+		//获取问题列表
+		getQsList:'/mock/getQsList',
+		//获取问题详情
+		getQs:'/mock/getQs',
 	};
 
 //服务器错误提示
